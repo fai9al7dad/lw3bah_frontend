@@ -1,6 +1,6 @@
 import React from "react";
 import CourseLayout from "../../../lib/common/components/layouts/CourseLayout";
-import { Course } from "../../../lib/features/courses/entities/course";
+import { Course } from "../../../lib/features/courses/domain/entities/course";
 import NoSectionsInCourse from "../../../lib/features/sections/presentation/NoSectionsInCourse";
 import ViewSections from "../../../lib/features/sections/presentation/ViewSections";
 

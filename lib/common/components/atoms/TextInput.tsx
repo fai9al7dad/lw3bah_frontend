@@ -2,19 +2,16 @@ import React from "react";
 
 export function TextInput({
   name,
-  placeholder,
   className,
-  value,
   label,
   required = true,
   ...props
 }: {
-  name: string;
   placeholder?: string;
   className?: string;
-  value: string;
-  required: boolean;
+  required?: boolean;
   label: string;
+  [key: string]: any;
 }) {
   return (
     <div className="">
@@ -25,9 +22,7 @@ export function TextInput({
       <input
         type="text"
         name={name}
-        value={value}
         required={required}
-        placeholder={placeholder}
         className={`border-2 border-netural-300 py-3 px-2 text-sm rounded-lg block w-full ${className}`}
         {...props}
       />

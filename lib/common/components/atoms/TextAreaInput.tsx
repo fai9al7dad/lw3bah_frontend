@@ -2,20 +2,16 @@ import React from "react";
 
 export function TextAreaInput({
   name,
-  placeholder,
   className,
-  value,
   label,
   required = true,
-
   ...props
 }: {
   name: string;
-  placeholder?: string;
   className?: string;
-  value: string;
   required: boolean;
   label: string;
+  [key: string]: any;
 }) {
   return (
     <div>
@@ -27,9 +23,7 @@ export function TextAreaInput({
       <div className="relative">
         <textarea
           name={name}
-          placeholder={placeholder}
           {...props}
-          value={value}
           required={required}
           className={`border-2 border-netural-300 py-3 px-2 text-sm rounded-lg block resize-none w-full ${className}`}
         ></textarea>

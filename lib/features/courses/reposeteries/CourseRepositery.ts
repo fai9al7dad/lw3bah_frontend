@@ -1,4 +1,4 @@
-import { Course } from "./../entities/course";
+import { Course } from "../domain/entities/course";
 
 export class CourseRepositery {
   private _courses: Course[];

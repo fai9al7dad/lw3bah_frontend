@@ -1,7 +1,12 @@
-// create a mongo driver class that extends the base driver class
-
-import { Course } from "../../features/courses/entities/course";
-import { IRead, IWrite } from "./BaseDriver";
+export interface IWrite<T> {
+  create(item: T): Promise<boolean>;
+  update(id: number, item: T): Promise<boolean>;
+  delete(id: number): Promise<boolean>;
+}
+export interface IRead<T> {
+  getAll(item: T): Promise<T[]>;
+  getOne(id: number): Promise<T>;
+}
 
 export abstract class MongoDriver implements IWrite<Course>, IRead<Course> {
   getAll(item: Course): Promise<Course[]> {
