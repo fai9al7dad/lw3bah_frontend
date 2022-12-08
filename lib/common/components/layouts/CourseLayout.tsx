@@ -14,8 +14,11 @@ export default function CourseLayout({
   return (
     <div className="">
       <div className="border-b border-netural-300 py-5 px-10 flex items-center justify-between">
-        <NavigationButton onClick={() => router.back()} className="px-10">
-          العودة
+        <NavigationButton
+          onClick={() => router.push("/courses")}
+          className="px-10"
+        >
+          دوراتي
         </NavigationButton>
         <AnimatedSidebar trigger={<SecondaryButton>تفاصيل</SecondaryButton>}>
           <div className="px-5">

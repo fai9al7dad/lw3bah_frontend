@@ -21,7 +21,6 @@ export default function RegisterForm() {
     password_confirmation: "",
     username: "",
     name: "",
-    shouldRemember: false,
   });
 
   const onChange = (event: any) => {
@@ -33,7 +32,6 @@ export default function RegisterForm() {
       });
       return;
     }
-    console.log(event.target.name, event.target.value);
 
     setFormState({
       ...formState,
@@ -60,9 +58,9 @@ export default function RegisterForm() {
         value={formState.email}
         onChange={onChange}
         placeholder="أدخل بريدك الإلكتروني "
-        className="mb-5"
+        className="mb-2"
       />
-      <InputError messages={errors.email} className="mt-2" />
+      <InputError messages={errors.email} className="my-2" />
       <TextInput
         label="اسم المستخدم"
         value={formState.username}
@@ -70,9 +68,9 @@ export default function RegisterForm() {
         type="text"
         onChange={onChange}
         placeholder="أدخل اسم المستخدم "
-        className="mb-5"
+        className="mb-2"
       />
-      <InputError messages={errors.username} className="mt-2" />
+      <InputError messages={errors.username} className="my-2" />
       <TextInput
         label="اسمك "
         name="name"
@@ -80,9 +78,9 @@ export default function RegisterForm() {
         onChange={onChange}
         value={formState.name}
         placeholder="أدخل اسمك الأول والأخير(اختياري) "
-        className="mb-5"
+        className="mb-2"
       />
-      <InputError messages={errors.name} className="mt-2" />
+      <InputError messages={errors.name} className="my-2" />
       <TextInput
         label="كلمة المرور"
         name="password"
@@ -90,9 +88,9 @@ export default function RegisterForm() {
         value={formState.password}
         type="password"
         placeholder="ادخل كلمة المرور"
-        className="mb-5"
+        className="mb-2"
       />
-      <InputError messages={errors.password} className="mt-2" />
+      <InputError messages={errors.password} className="my-2" />
       <TextInput
         label="أعد كتابة كلمة المرور"
         name="password_confirmation"
@@ -100,11 +98,11 @@ export default function RegisterForm() {
         value={formState.password_confirmation}
         type="password"
         placeholder="أعد ادخال كلمة المرور"
-        className="mb-5"
+        className="mb-2"
       />
-      <InputError messages={errors.password_confirmation} className="mt-2" />
+      <InputError messages={errors.password_confirmation} className="my-2" />
 
-      <PrimaryButton className="mb-5 w-full">تسجيل الدخول</PrimaryButton>
+      <PrimaryButton className="my-5 w-full">تسجيل الدخول</PrimaryButton>
       <hr />
       <div className="text-sm mt-4 text-center">
         لديك حساب؟{" "}

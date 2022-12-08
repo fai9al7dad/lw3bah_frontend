@@ -1,12 +1,8 @@
 import Link from "next/link";
-import React, { useState } from "react";
-import {
-  PrimaryButton,
-  TextInput,
-  Wrapper,
-} from "../../../common/components/atoms";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { PrimaryButton, TextInput } from "../../../common/components/atoms";
 import InputError from "../../../common/components/atoms/input_error";
-import { AuthLayout } from "../../../common/components/layouts/auth_layout";
 import { useAuth } from "../domain/usecases/use_auth";
 
 export default function LoginForm() {
@@ -14,6 +10,8 @@ export default function LoginForm() {
     middleware: "guest",
     redirectIfAuthenticated: "/",
   });
+
+  const [status, setStatus] = useState(null);
 
   const [formState, setFormState] = useState({
     email: "",
@@ -35,6 +33,7 @@ export default function LoginForm() {
       email: formState.email,
       password: formState.password,
       setErrors,
+      setStatus,
     });
   };
   return (
@@ -44,6 +43,7 @@ export default function LoginForm() {
         name="email"
         type="email"
         value={formState.email}
+        onChange={onChange}
         placeholder="أدخل بريدك الإلكتروني "
         className="mb-5"
       />

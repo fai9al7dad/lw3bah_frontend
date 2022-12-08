@@ -20,14 +20,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
       .then((res) => res.data)
       .catch((error) => {
         if (error.response.status !== 409) throw error;
-
         router.push("/verify-email");
       })
   );
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
+
   const register = async ({ setErrors, ...props }) => {
-    await csrf();
+    // await cs1rf();
 
     setErrors([]);
 
@@ -35,38 +35,40 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
       .post("/register", props)
       .then(() => mutate())
       .catch((error) => {
-        console.log(error.response.data);
-
         if (error.response.status !== 422) throw error;
 
         setErrors(error.response.data.errors);
       });
   };
 
-  const login = async ({ setErrors, ...props }) => {
-    await csrf();
+  const login = async ({ setErrors, setStatus, ...props }) => {
+    // await csrf();
 
     setErrors([]);
+    setStatus(null);
 
     axios
       .post("/login", props)
       .then(() => mutate())
       .catch((error) => {
         if (error.response.status !== 422) throw error;
+
         setErrors(error.response.data.errors);
       });
   };
 
   const forgotPassword = async ({ setErrors, setStatus, email }) => {
     await csrf();
+
     setErrors([]);
     setStatus(null);
+
     axios
       .post("/forgot-password", { email })
       .then((response) => setStatus(response.data.status))
       .catch((error) => {
-        console.log(error.response);
         if (error.response.status !== 422) throw error;
+
         setErrors(error.response.data.errors);
       });
   };
@@ -109,11 +111,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
     if (window.location.pathname === "/verify-email" && user?.email_verified_at)
       router.push(redirectIfAuthenticated);
     if (middleware === "auth" && error) logout();
-    if (middleware === "sameAuth") {
-      if (!user || user?.username !== router.query?.username) {
-        router.push("/dashboard");
-      }
-    }
   }, [user, error]);
 
   return {
