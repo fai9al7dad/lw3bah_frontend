@@ -27,7 +27,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   const register = async ({ setErrors, ...props }) => {
-    // await cs1rf();
+    await csrf();
 
     setErrors([]);
 
@@ -42,7 +42,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
   };
 
   const login = async ({ setErrors, setStatus, ...props }) => {
-    // await csrf();
+    await csrf();
 
     setErrors([]);
     setStatus(null);
@@ -102,7 +102,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
       await axios.post("/logout").then(() => mutate());
     }
 
-    window.location.pathname = "/login";
+    window.location.pathname = "/auth/login";
   };
 
   useEffect(() => {

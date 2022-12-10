@@ -1,23 +1,25 @@
+import { api_routes } from "./../../../common/data/data_sources/api_routes";
+import { safeAxiosHandler } from "./../../../common/data/data_sources/axios";
+import axios from "../../../common/data/data_sources/axios";
 import { Course } from "../domain/entities/course";
 
 export class CourseRepositery {
-  private _courses: Course[];
-  constructor() {
-    this._courses = [];
+  async create(course: Course): Promise<Course> {
+    const c: any = safeAxiosHandler(async () => {
+      const res = await axios.post(api_routes.create_course, course);
+      const data = res.data;
+      return new Course({
+        id: data._id,
+        title: data.title,
+        description: data.description,
+        topic: data.topic,
+      });
+    });
+    return c;
   }
-  create(item: Course): Promise<boolean> {
+  getAllSections({ courseID }: { courseID: number }): Promise<Course[]> {
     throw new Error("Method not implemented.");
   }
-  update(id: number, item: Course): Promise<boolean> {
-    throw new Error("Method not implemented.");
-  }
-  delete(id: number): Promise<boolean> {
-    throw new Error("Method not implemented.");
-  }
-  getAll(): Promise<Course[]> {
-    throw new Error("Method not implemented.");
-  }
-
   getOne(id: number): Promise<Course> {
     throw new Error("Method not implemented.");
   }

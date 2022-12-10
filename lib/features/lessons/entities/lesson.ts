@@ -1,18 +1,20 @@
 export class Lesson {
-  id: string;
+  id?: string;
   description: string;
-  createdAt: string;
-  views: string;
+  sectionID?: number;
+  constructor({
+    id,
+    description,
+    sectionID,
+  }: {
+    id?: string;
+    description: string;
 
-  constructor(
-    id: string,
-    description: string,
-    createdAt: string,
-    views: string
-  ) {
+    sectionID?: number;
+  }) {
     this.id = id;
     this.description = description;
-    this.createdAt = createdAt;
-    this.views = views;
+
+    this.sectionID = sectionID;
   }
 }

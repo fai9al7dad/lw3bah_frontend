@@ -1,9 +1,19 @@
 export class Section {
-  id: string;
-  name: string;
+  id?: string;
+  title: string;
+  courseID?: number;
 
-  constructor(id: string, name: string, description: string) {
+  constructor({
+    id,
+    title,
+    courseID,
+  }: {
+    id?: string;
+    title: string;
+    courseID?: number;
+  }) {
     this.id = id;
-    this.name = name;
+    this.title = title;
+    this.courseID = courseID;
   }
 }

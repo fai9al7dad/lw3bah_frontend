@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
+import axios from "../data/data_sources/axios";
 
 const useSubmit = () => {
   const [errors, setErrors] = useState<any>([]);
@@ -8,34 +8,20 @@ const useSubmit = () => {
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
-  const send = async ({
-    payload,
-    url,
-    method = "post",
-    onSuccess,
-  }: sendProps) => {
-    //   NProgress.start()
-
+  const send = async ({ sendFunction, onSuccess }: sendProps) => {
     await csrf();
     setErrors([]);
     setLoading(true);
-    axios[method](url, payload)
-      .then((res:any) => {
-        setResponse(res.data);
-        if (onSuccess != null) {
-          onSuccess(res.data);
-        }
-      })
-      .catch((error:any) => {
-        console.log(error?.response?.data);
-        // if (error.response.status !== 422) throw error
-        if (error?.response?.data?.errors?.length > 0) {
-          setErrors(error.response.data.errors);
-        } else {
-          setErrors(error.response.data?.message);
-        }
-      })
-      .finally(() => setLoading(false));
+    try {
+      const res = await sendFunction();
+      setResponse(res);
+      onSuccess && onSuccess(res);
+    } catch (error) {
+      console.log(error);
+      setErrors(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
@@ -49,8 +35,6 @@ const useSubmit = () => {
 export default useSubmit;
 
 interface sendProps {
-  payload: any;
-  url: string;
-  method?: string;
+  sendFunction: (a?: any) => Promise<any>;
   onSuccess?: (a?: any) => void;
 }

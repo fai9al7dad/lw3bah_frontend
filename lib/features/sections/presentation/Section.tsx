@@ -9,7 +9,7 @@ import { ArchiveIcon } from "../../../common/components/SvgIcons";
 import CreateLesson from "../../lessons/presentation/CreateLesson";
 import Lesson from "../../lessons/presentation/Lesson";
 
-export default function Section({ title }: { title: string }) {
+export default function Section({ title, id }: { title: string; id: number }) {
   return (
     <>
       <Wrapper>
@@ -26,7 +26,7 @@ export default function Section({ title }: { title: string }) {
               <PrimaryButton className="text-xs">إضافة درس</PrimaryButton>
             }
           >
-            <CreateLesson />
+            <CreateLesson sectionID={id} />
           </Modal>
         </div>
         <div className="mt-5">

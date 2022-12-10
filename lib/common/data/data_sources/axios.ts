@@ -1,13 +1,19 @@
-import Axios from "axios";
+import Axios, { AxiosResponse } from "axios";
+import { Type } from "typescript";
 
 const axios = Axios.create({
   baseURL: "https://haql-api.waqf-raqmy.com/",
   headers: {
     "X-Requested-With": "XMLHttpRequest",
-    "Content-Type": "application/json",
-    accept: "application/json",
   },
   withCredentials: true,
 });
 
+export const safeAxiosHandler = (axiosCall: Function): Promise<Type> => {
+  try {
+    return axiosCall();
+  } catch (err) {
+    throw err;
+  }
+};
 export default axios;

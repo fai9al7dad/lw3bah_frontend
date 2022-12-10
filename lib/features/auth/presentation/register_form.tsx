@@ -21,6 +21,7 @@ export default function RegisterForm() {
     password_confirmation: "",
     username: "",
     name: "",
+    role: "teacher",
   });
 
   const onChange = (event: any) => {

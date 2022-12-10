@@ -9,7 +9,7 @@ export function TextAreaInput({
 }: {
   name: string;
   className?: string;
-  required: boolean;
+  required?: boolean;
   label: string;
   [key: string]: any;
 }) {
