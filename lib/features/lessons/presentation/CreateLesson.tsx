@@ -1,4 +1,6 @@
+import { Router, useRouter } from "next/router";
 import React from "react";
+import { useSWRConfig } from "swr";
 import {
   PrimaryButton,
   SecondaryButton,
@@ -9,9 +11,16 @@ import { api_routes } from "../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../common/hooks/use_submit";
 import { LessonsRepositery } from "../data/repositeries/lessons_repositery";
 
-export default function CreateLesson({ sectionID }: { sectionID: any }) {
-  const { send } = useSubmit();
-
+export default function CreateLesson({
+  sectionID,
+  setShowModal,
+}: {
+  setShowModal?: (bool: boolean) => {};
+  sectionID: any;
+}) {
+  const { send, loading } = useSubmit();
+  const { mutate } = useSWRConfig();
+  const router = useRouter();
   const [formState, setFormState] = React.useState({
     title: "",
     description: "",
@@ -25,7 +34,10 @@ export default function CreateLesson({ sectionID }: { sectionID: any }) {
   };
 
   const onSubmit = (e: any) => {
+    setShowModal && setShowModal(false);
+    if (loading) return;
     e.preventDefault();
+
     const lessonsRepo = new LessonsRepositery();
     const payload = {
       ...formState,
@@ -34,7 +46,7 @@ export default function CreateLesson({ sectionID }: { sectionID: any }) {
     send({
       sendFunction: () => lessonsRepo.create({ ...payload }),
       onSuccess: (res) => {
-        console.log(res);
+        mutate(api_routes.get_sections + "/" + router.query.courseID);
       },
     });
   };
@@ -55,8 +67,10 @@ export default function CreateLesson({ sectionID }: { sectionID: any }) {
         label="وصف الدرس"
         className="mb-5"
       />
-      <PrimaryButton className=" w-full ">انشاء + انتقال</PrimaryButton>
-      {/* <SecondaryButton className=" w-full mt-5">انشاء فقط</SecondaryButton> */}
+      <PrimaryButton disabled={loading} className=" w-full ">
+        انشاء
+      </PrimaryButton>
+      {/* <SecondaryButton className=" w-full mt-5">انشاء</SecondaryButton> */}
     </form>
   );
 }

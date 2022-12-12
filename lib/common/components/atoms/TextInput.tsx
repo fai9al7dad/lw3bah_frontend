@@ -15,9 +15,9 @@ export function TextInput({
 }) {
   return (
     <div className="">
-      <label htmlFor={name} className="mb-4 text-sm block ">
-        <span className="mr-1">{required ? "*" : "(اختياري)"}</span>
+      <label htmlFor={name} className="mb-4 text-sm block text-right">
         {label}
+        <span className="mr-1">{required ? "*" : "(اختياري)"}</span>
       </label>
       <input
         type="text"

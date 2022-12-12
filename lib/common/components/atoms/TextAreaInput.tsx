@@ -15,10 +15,9 @@ export function TextAreaInput({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-4 text-sm block">
-        <span className="mr-1">{required ? "*" : "(اختياري)"}</span>
-
+      <label htmlFor={name} className="mb-4 text-sm block text-right">
         {label}
+        <span className="mr-1">{required ? "*" : "(اختياري)"}</span>
       </label>
       <div className="relative">
         <textarea

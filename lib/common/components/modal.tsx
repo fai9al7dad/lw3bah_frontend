@@ -23,8 +23,8 @@ export default function Modal({
 
       {showModal == true && (
         <div
-          onClick={() => setShowModal(false)}
-          className="bg-neutral-900/40 w-screen h-screen fixed inset-0 "
+          onClick={() => setShowModal(!showModal)}
+          className="bg-neutral-900/40 w-screen h-screen fixed inset-0"
         />
       )}
       {showModal == true && (
@@ -54,7 +54,10 @@ export default function Modal({
                     <div className="px-10"></div>
                   </div>
 
-                  {children}
+                  {/* pass setShowModal to children to close the modal */}
+                  {React.cloneElement(children as React.ReactElement, {
+                    setShowModal,
+                  })}
                 </div>
               </div>
             </div>

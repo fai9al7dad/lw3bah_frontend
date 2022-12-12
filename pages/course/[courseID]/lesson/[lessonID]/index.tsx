@@ -1,91 +1,30 @@
+import { useRouter } from "next/router";
 import React, { useRef } from "react";
-import {
-  NavigationButton,
-  Wrapper,
-} from "../../../../../lib/common/components/atoms";
+import useSWR from "swr";
+import { Wrapper } from "../../../../../lib/common/components/atoms";
 import LessonLayout from "../../../../../lib/common/components/layouts/LessonLayout";
-import QuizForm from "../../../../../lib/features/questions/presentation/QuizForm";
-import TrueFalseForm from "../../../../../lib/features/questions/presentation/TrueFalseForm";
-import MediaWithDescriptionForm from "../../../../../lib/features/slides/presentation/MediaWithDescriptionForm";
-import TitleBodyContentForm from "../../../../../lib/features/slides/presentation/TitleBodyContentForm";
-const slides = [
-  {
-    id: 1,
-    type: "title-body-content",
-    title: "العنوان",
-    body: "المحتوى",
-  },
-  {
-    id: 2,
+import { api_routes } from "../../../../../lib/common/data/data_sources/api_routes";
+import { SlidesRepositery } from "../../../../../lib/features/slides/data/repositeries/SlidesRepositery";
+import { DisplaySlideBasedOnType } from "../../../../../lib/features/slides/presentation/display_slide_based_on_type";
+import { ViewSlides } from "../../../../../lib/features/slides/presentation/view_slides";
 
-    type: "media-with-description",
-    media: "https://picsum.photos/200/300",
-    description: "الوصف",
-  },
-  {
-    id: 3,
-    type: "true-false",
-    question: "السؤال",
-    answers: [
-      {
-        text: "الإجابة الصحيحة",
-        isCorrect: true,
-      },
-      {
-        text: "الإجابة الخاطئة",
-        isCorrect: false,
-      },
-    ],
-  },
-  {
-    id: 4,
-
-    type: "quiz",
-    question: "السؤال",
-    answers: [
-      {
-        text: "الإجابة الصحيحة",
-        isCorrect: true,
-      },
-      {
-        text: "الإجابة الخاطئة",
-        isCorrect: false,
-      },
-      {
-        text: "الإجابة الخاطئة",
-        isCorrect: false,
-      },
-      {
-        text: "الإجابة الخاطئة",
-        isCorrect: false,
-      },
-    ],
-  },
-];
 export default function index() {
+  const router = useRouter();
+  const { data, error } = useSWR(api_routes.get_slides, () =>
+    SlidesRepositery.getAll(router.query.lessonID as string)
+  );
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  const ref = useRef(null);
-  // detect if ref changed and concat class
-  React.useEffect(() => {}, [currentSlide]);
+  if (!data) return <div>Loading...</div>;
+
   return (
     <LessonLayout
       slides={
-        <div className="flex flex-col items-center">
-          {slides.map((slide, i) => (
-            <NavigationButton
-              key={i}
-              onClick={() => setCurrentSlide(i)}
-              className={`w-full mb-2 ${
-                currentSlide == i
-                  ? "bg-neutral-300 shadow-secondary-button border-neutral-300"
-                  : ""
-              }`}
-            >
-              i
-            </NavigationButton>
-          ))}
-        </div>
+        <ViewSlides
+          slides={data}
+          currentSlideIndex={currentSlide}
+          setCurrentSlide={setCurrentSlide}
+        />
       }
     >
       <div
@@ -94,30 +33,7 @@ export default function index() {
         } transition-all duration-150`}
       >
         <Wrapper>
-          {slides[currentSlide].type === "title-body-content" && (
-            <TitleBodyContentForm
-              title={slides[currentSlide].title}
-              body={slides[currentSlide].body}
-            />
-          )}
-          {slides[currentSlide].type === "media-with-description" && (
-            <MediaWithDescriptionForm
-              media={slides[currentSlide].media}
-              description={slides[currentSlide].description}
-            />
-          )}
-          {slides[currentSlide].type === "true-false" && (
-            <TrueFalseForm
-              question={slides[currentSlide].question}
-              answers={slides[currentSlide].answers}
-            />
-          )}
-          {slides[currentSlide].type === "quiz" && (
-            <QuizForm
-              question={slides[currentSlide].question}
-              answers={slides[currentSlide].answers}
-            />
-          )}
+          <DisplaySlideBasedOnType slide={data[currentSlide]} />
         </Wrapper>
       </div>
     </LessonLayout>

@@ -12,11 +12,11 @@ export default function MainLayout({
   return (
     <div>
       <div className="border-b border-netural-300 py-5 px-10 flex items-center justify-between">
-        <LogoutButton />
         <div className="text-xl font-bold">
-          <span className="ml-2">{user?.name} </span>
           مرحبا
+          <span className="mr-2">{user?.name} </span>
         </div>
+        <LogoutButton />
       </div>
       {children}
     </div>

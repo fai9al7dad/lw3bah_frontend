@@ -1,4 +1,5 @@
 import React from "react";
+import { useSWRConfig } from "swr";
 import {
   PrimaryButton,
   TextAreaInput,
@@ -9,8 +10,15 @@ import useSubmit from "../../../common/hooks/use_submit";
 import { SectionsRepositery } from "../data/repositeries/sections_repositery";
 import { Section } from "../entities/section";
 
-export default function CreateSection({ courseID }: { courseID: any }) {
+export default function CreateSection({
+  setShowModal,
+  courseID,
+}: {
+  setShowModal?: (bool: boolean) => {};
+  courseID: any;
+}) {
   const { send, loading } = useSubmit();
+  const { mutate } = useSWRConfig();
   const [formState, setFormState] = React.useState({
     title: "",
   });
@@ -23,8 +31,8 @@ export default function CreateSection({ courseID }: { courseID: any }) {
   };
   const onSubmit = (e: any) => {
     e.preventDefault();
+    setShowModal && setShowModal(false);
     if (loading) return;
-
     const payload = {
       title: formState.title,
       courseID: courseID,
@@ -34,8 +42,7 @@ export default function CreateSection({ courseID }: { courseID: any }) {
     send({
       sendFunction: () => sectionsRepo.create(new Section({ ...payload })),
       onSuccess: (res) => {
-        // refresh the page
-        window.location.reload();
+        mutate(api_routes.get_sections + "/" + courseID);
       },
     });
   };

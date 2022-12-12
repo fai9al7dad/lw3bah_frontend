@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import axios from "../data/data_sources/axios";
 
 const useSubmit = () => {
@@ -9,11 +10,16 @@ const useSubmit = () => {
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   const send = async ({ sendFunction, onSuccess }: sendProps) => {
+    setLoading(true);
     await csrf();
     setErrors([]);
-    setLoading(true);
     try {
-      const res = await sendFunction();
+      const res = await toast.promise(sendFunction(), {
+        pending: "Loading...",
+        success: "Success",
+        error: "Error",
+      });
+
       setResponse(res);
       onSuccess && onSuccess(res);
     } catch (error) {

@@ -15,7 +15,7 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center min-h-[85vh] ">
         <div className="w-1/4">
           <div>
-            <div className="flex justify-end">
+            <div className="flex ">
               <Link href="/">
                 <SecondaryButton className="mb-5">عودة</SecondaryButton>
               </Link>

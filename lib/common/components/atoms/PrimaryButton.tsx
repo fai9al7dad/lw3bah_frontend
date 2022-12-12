@@ -15,7 +15,7 @@ export function PrimaryButton(
 ) {
   return (
     <button
-      onClick={onClick}
+      onClick={props.disabled ? null : onClick}
       className={`py-3 px-10  transition-all duration-75 shadow-primary-button bg-yellow-400 text-yellow-800 text-center font-bold rounded-lg  ${className} 
       ${
         props.disabled
@@ -25,6 +25,7 @@ export function PrimaryButton(
       `}
       {...props}
     >
+      {props.disabled && "disabled"}
       {children}
     </button>
   );

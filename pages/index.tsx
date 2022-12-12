@@ -7,7 +7,7 @@ export default function index() {
   return (
     <MainLayout>
       <div className="min-h-[85vh] flex items-center justify-center">
-        <ViewCoursesButton className="mr-10" />
+        <ViewCoursesButton className="ml-10" />
         <CreataCourseButton />
       </div>
     </MainLayout>

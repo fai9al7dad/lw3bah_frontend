@@ -1,22 +1,28 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { toast } from "react-toastify";
+import useSWR from "swr";
 import {
   PrimaryButton,
   TextAreaInput,
   TextInput,
 } from "../../../common/components/atoms";
+import { api_routes } from "../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../common/hooks/use_submit";
-import { Course } from "../domain/entities/course";
 import { CourseRepositery } from "../reposeteries/CourseRepositery";
 
-export default function CreateCourse() {
+export const UpdateCourseDetails = () => {
   const router = useRouter();
+  const { data, error, isValidating } = useSWR(
+    api_routes.get_course + `/${router.query.courseID}`,
+    () => CourseRepositery.get(router.query.courseID as string)
+  );
+
   const { send, errors, response, loading } = useSubmit();
   const [formState, setFormState] = React.useState({
-    title: "",
-    description: "",
+    title: data?.title ?? "",
+    description: data?.description ?? "",
   });
+
   const onChange = (event: any) => {
     setFormState({
       ...formState,
@@ -24,21 +30,23 @@ export default function CreateCourse() {
     });
   };
   const onSubmit = (e: any) => {
-    if (loading) return;
-
     e.preventDefault();
+
     send({
       sendFunction: () => {
-        return CourseRepositery.create({
+        return CourseRepositery.update({
           title: formState.title,
           description: formState.description,
         });
       },
       onSuccess: (res) => {
-        router.push("/course/" + res.id);
+        // router.push("/course/" + res.id);
       },
     });
   };
+  if (error) return <div>error</div>;
+  if (isValidating) return <div>loading</div>;
+  if (!data) return <div>loading</div>;
 
   return (
     <form onSubmit={onSubmit}>
@@ -56,13 +64,7 @@ export default function CreateCourse() {
         label="وصف الدورة"
         className="mb-5"
       />
-      {loading ? (
-        <div>loading...</div>
-      ) : (
-        <PrimaryButton disabled={loading} className=" w-full">
-          انشاء{" "}
-        </PrimaryButton>
-      )}
+      <PrimaryButton className=" w-full">تحديث </PrimaryButton>
     </form>
   );
-}
+};

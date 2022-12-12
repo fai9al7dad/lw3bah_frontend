@@ -1,21 +1,25 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
-import { NavigationButton, Wrapper } from "../../lib/common/components/atoms";
+import {
+  NavigationButton,
+  SecondaryButton,
+  Wrapper,
+} from "../../lib/common/components/atoms";
 import MainLayout from "../../lib/common/components/layouts/main_layout";
-import { fetcher } from "../../lib/common/data/data_sources/fetcher";
-import CourseItem from "../../lib/features/courses/presentation/course_item";
+
+import ViewAllCourses from "../../lib/features/courses/presentation/view_all_courses";
 
 export default function index() {
-  const courses = useSWR("/api/courses", fetcher);
-  console.log(courses);
-
   return (
     <MainLayout>
       <div className="min-h-[85vh] flex items-center justify-center ">
         <div className="w-2/5">
+          <Link href="/">
+            <SecondaryButton className="mb-5">عودة</SecondaryButton>
+          </Link>
           <Wrapper title="دوراتي">
-            <CourseItem title="asdf" />
+            <ViewAllCourses />
           </Wrapper>
         </div>
       </div>

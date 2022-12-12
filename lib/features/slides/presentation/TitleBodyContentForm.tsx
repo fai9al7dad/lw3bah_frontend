@@ -4,8 +4,9 @@ import {
   TextAreaInput,
   TextInput,
 } from "../../../common/components/atoms";
+import { Slide } from "../domain/entities/slide";
 
-export default function TitleBodyContentForm() {
+export default function TitleBodyContentForm({ slide }: { slide: Slide }) {
   return (
     <form action="">
       <TextInput label="عنوان الشريحة" className="mb-5" required={false} />
