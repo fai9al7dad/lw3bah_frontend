@@ -7,12 +7,12 @@ import {
   TextInput,
 } from "../../../common/components/atoms";
 import useSubmit from "../../../common/hooks/use_submit";
-import { Course } from "../domain/entities/course";
+import useCourse from "../domain/usecases/useCourse";
 import { CourseRepositery } from "../reposeteries/CourseRepositery";
 
 export default function CreateCourse() {
-  const router = useRouter();
-  const { send, errors, response, loading } = useSubmit();
+  const { loading } = useSubmit();
+  const { create } = useCourse();
   const [formState, setFormState] = React.useState({
     title: "",
     description: "",
@@ -27,15 +27,10 @@ export default function CreateCourse() {
     if (loading) return;
 
     e.preventDefault();
-    send({
-      sendFunction: () => {
-        return CourseRepositery.create({
-          title: formState.title,
-          description: formState.description,
-        });
-      },
-      onSuccess: (res) => {
-        router.push("/course/" + res.id);
+    create({
+      payload: {
+        title: formState.title,
+        description: formState.description,
       },
     });
   };

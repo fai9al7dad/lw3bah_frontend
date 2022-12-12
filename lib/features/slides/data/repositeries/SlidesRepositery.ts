@@ -134,7 +134,6 @@ export class SlidesRepositery {
         },
       });
       const data = res.data;
-      console.log({ data });
 
       return data.map((slide: any) => {
         return new Slide({
@@ -147,10 +146,8 @@ export class SlidesRepositery {
         });
       });
     });
-
     return c;
   }
-
   static async get(slideID: string): Promise<Slide> {
     const c: any = safeAxiosHandler(async () => {
       const res = await axios.get(api_routes.get_slide, {

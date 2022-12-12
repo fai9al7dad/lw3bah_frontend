@@ -26,7 +26,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
-  const register = async ({ setErrors, ...props }) => {
+  const register = async ({ setErrors, ...props }: { setErrors: any }) => {
     await csrf();
 
     setErrors([]);
@@ -41,7 +41,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
       });
   };
 
-  const login = async ({ setErrors, setStatus, ...props }) => {
+  const login = async ({
+    setErrors,
+    setStatus,
+    ...props
+  }: {
+    setErrors: any;
+    setStatus: any;
+  }) => {
     await csrf();
 
     setErrors([]);
@@ -57,7 +64,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
       });
   };
 
-  const forgotPassword = async ({ setErrors, setStatus, email }) => {
+  const forgotPassword = async ({
+    setErrors,
+    setStatus,
+    email,
+  }: {
+    setErrors: any;
+    setStatus: any;
+    email: any;
+  }) => {
     await csrf();
 
     setErrors([]);
@@ -73,7 +88,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
       });
   };
 
-  const resetPassword = async ({ setErrors, setStatus, ...props }) => {
+  const resetPassword = async ({
+    setErrors,
+    setStatus,
+    ...props
+  }: {
+    setErrors: any;
+    setStatus: any;
+    props: any;
+  }) => {
     await csrf();
 
     setErrors([]);
@@ -91,7 +114,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
       });
   };
 
-  const resendEmailVerification = ({ setStatus }) => {
+  const resendEmailVerification = ({ setStatus }: { setStatus: any }) => {
     axios
       .post("/email/verification-notification")
       .then((response) => setStatus(response.data.status));

@@ -9,7 +9,7 @@ import { ArchiveIcon } from "../../../common/components/SvgIcons";
 import CreateLesson from "../../lessons/presentation/CreateLesson";
 import Lesson from "../../lessons/presentation/view_lesson";
 import ViewSectionLessons from "../../lessons/presentation/view_section_lessons";
-import { Section as SectionEntity } from "../entities/section";
+import { Section as SectionEntity } from "../domain/entities/section";
 
 export default function Section({
   section,

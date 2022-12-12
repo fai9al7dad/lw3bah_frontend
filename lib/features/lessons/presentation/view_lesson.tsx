@@ -1,5 +1,5 @@
 import React from "react";
-import { Lesson } from "../entities/lesson";
+import { Lesson } from "../domain/entities/lesson";
 
 export default function ViewLesson({ lesson }: { lesson: Lesson }) {
   return (

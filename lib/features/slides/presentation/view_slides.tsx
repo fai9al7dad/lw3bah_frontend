@@ -20,11 +20,11 @@ export const ViewSlides = ({
           onClick={() => setCurrentSlide(i)}
           className={`w-full mb-2 ${
             currentSlideIndex == i
-              ? "bg-neutral-300 shadow-secondary-button border-neutral-300"
+              ? "bg-neutral-300 shadow-secondary-button border-neutral-300 max-w-full"
               : ""
           }`}
         >
-          i
+          {Slide.translateSlideTypeToArabic(slide.slideType)} {i + 1}
         </NavigationButton>
       ))}
     </div>

@@ -18,7 +18,7 @@ export default function MainLayout({
         </div>
         <LogoutButton />
       </div>
-      {children}
+      <div className="py-20">{children}</div>
     </div>
   );
 }

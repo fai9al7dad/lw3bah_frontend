@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import {
   PrimaryButton,
@@ -8,20 +8,24 @@ import {
 } from "../../../common/components/atoms";
 import { api_routes } from "../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../common/hooks/use_submit";
+import useCourse from "../domain/usecases/useCourse";
 import { CourseRepositery } from "../reposeteries/CourseRepositery";
 
 export const UpdateCourseDetails = () => {
-  const router = useRouter();
-  const { data, error, isValidating } = useSWR(
-    api_routes.get_course + `/${router.query.courseID}`,
-    () => CourseRepositery.get(router.query.courseID as string)
-  );
+  const { course, update } = useCourse();
 
   const { send, errors, response, loading } = useSubmit();
   const [formState, setFormState] = React.useState({
-    title: data?.title ?? "",
-    description: data?.description ?? "",
+    title: course?.title ?? "",
+    description: course?.description ?? "",
   });
+
+  useEffect(() => {
+    setFormState({
+      title: course?.title ?? "",
+      description: course?.description ?? "",
+    });
+  }, [course]);
 
   const onChange = (event: any) => {
     setFormState({
@@ -31,22 +35,13 @@ export const UpdateCourseDetails = () => {
   };
   const onSubmit = (e: any) => {
     e.preventDefault();
-
-    send({
-      sendFunction: () => {
-        return CourseRepositery.update({
-          title: formState.title,
-          description: formState.description,
-        });
-      },
-      onSuccess: (res) => {
-        // router.push("/course/" + res.id);
+    update({
+      payload: {
+        title: formState.title,
+        description: formState.description,
       },
     });
   };
-  if (error) return <div>error</div>;
-  if (isValidating) return <div>loading</div>;
-  if (!data) return <div>loading</div>;
 
   return (
     <form onSubmit={onSubmit}>

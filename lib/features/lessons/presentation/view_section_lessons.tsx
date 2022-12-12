@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { NavigationButton } from "../../../common/components/atoms";
-import { Lesson } from "../entities/lesson";
+import { Lesson } from "../domain/entities/lesson";
 import ViewLesson from "./view_lesson";
 
 export default function ViewSectionLessons({ lessons }: { lessons: Lesson[] }) {

@@ -1,8 +1,8 @@
-import { Lesson } from "./../../lessons/entities/lesson";
+import { Lesson } from "../../../lessons/domain/entities/lesson";
 export class Section {
   id?: string;
   title: string;
-  courseID?: number;
+  courseID?: string;
   order?: number;
   lessons?: Lesson[];
   constructor({
@@ -14,7 +14,7 @@ export class Section {
   }: {
     id?: string;
     title: string;
-    courseID?: number;
+    courseID?: string;
     order?: number;
     lessons?: Lesson[];
   }) {

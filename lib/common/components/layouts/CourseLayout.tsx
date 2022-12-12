@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import useSWR from "swr";
+import useCourse from "../../../features/courses/domain/usecases/useCourse";
 import CreateCourse from "../../../features/courses/presentation/CreateCourse";
 import { UpdateCourseDetails } from "../../../features/courses/presentation/update_course_details";
 import { CourseRepositery } from "../../../features/courses/reposeteries/CourseRepositery";
+import { api_routes } from "../../data/data_sources/api_routes";
 import AnimatedSidebar from "../AnimatedSidebar";
 import { NavigationButton, PrimaryButton, SecondaryButton } from "../atoms";
 import Modal from "../modal";
@@ -14,6 +17,7 @@ export default function CourseLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const { course, error, isValidating } = useCourse();
   return (
     <div className="">
       <div className="border-b border-netural-300 py-5 px-10 flex items-center justify-between">
@@ -35,6 +39,7 @@ export default function CourseLayout({
             </Modal>
           </div>
         </AnimatedSidebar>
+        {course && <div className="text-2xl font-bold">{course?.title}</div>}
         <NavigationButton
           onClick={() => router.push("/courses")}
           className="px-10"

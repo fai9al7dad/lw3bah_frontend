@@ -3,13 +3,11 @@ import React from "react";
 import { useSWRConfig } from "swr";
 import {
   PrimaryButton,
-  SecondaryButton,
   TextAreaInput,
   TextInput,
 } from "../../../common/components/atoms";
-import { api_routes } from "../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../common/hooks/use_submit";
-import { LessonsRepositery } from "../data/repositeries/lessons_repositery";
+import { useLesson } from "../domain/usecases/use_lesson";
 
 export default function CreateLesson({
   sectionID,
@@ -19,8 +17,7 @@ export default function CreateLesson({
   sectionID: any;
 }) {
   const { send, loading } = useSubmit();
-  const { mutate } = useSWRConfig();
-  const router = useRouter();
+  const { create } = useLesson();
   const [formState, setFormState] = React.useState({
     title: "",
     description: "",
@@ -38,17 +35,11 @@ export default function CreateLesson({
     if (loading) return;
     e.preventDefault();
 
-    const lessonsRepo = new LessonsRepositery();
     const payload = {
       ...formState,
       section_id: sectionID,
     };
-    send({
-      sendFunction: () => lessonsRepo.create({ ...payload }),
-      onSuccess: (res) => {
-        mutate(api_routes.get_sections + "/" + router.query.courseID);
-      },
-    });
+    create({ payload });
   };
 
   return (

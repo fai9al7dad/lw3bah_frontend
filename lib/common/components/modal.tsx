@@ -24,12 +24,12 @@ export default function Modal({
       {showModal == true && (
         <div
           onClick={() => setShowModal(!showModal)}
-          className="bg-neutral-900/40 w-screen h-screen fixed inset-0"
+          className="bg-neutral-900/40 w-screen h-screen z-50 fixed inset-0"
         />
       )}
       {showModal == true && (
         <div
-          className={`relative z-40 ease-out duration-150 `}
+          className={`relative z-50 ease-out duration-150 `}
           aria-labelledby="modal-title"
           role="dialog"
           aria-modal="true"

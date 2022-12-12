@@ -2,10 +2,10 @@ import { api_routes } from "../../../../common/data/data_sources/api_routes";
 import axios, {
   safeAxiosHandler,
 } from "../../../../common/data/data_sources/axios";
-import { Section } from "../../entities/section";
+import { Section } from "../../domain/entities/section";
 
 export class SectionsRepositery {
-  async create(section: Section): Promise<Section> {
+  static async create(section: Section): Promise<Section> {
     const c: any = safeAxiosHandler(async () => {
       const res = await axios.post(api_routes.create_section, {
         course_id: section.courseID,

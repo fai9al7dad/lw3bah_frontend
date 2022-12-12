@@ -1,27 +1,23 @@
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
-import useSWR from "swr";
 import { Wrapper } from "../../../../../lib/common/components/atoms";
 import LessonLayout from "../../../../../lib/common/components/layouts/LessonLayout";
-import { api_routes } from "../../../../../lib/common/data/data_sources/api_routes";
-import { SlidesRepositery } from "../../../../../lib/features/slides/data/repositeries/SlidesRepositery";
+import { useSlides } from "../../../../../lib/features/slides/domain/usecases/use_slides";
 import { DisplaySlideBasedOnType } from "../../../../../lib/features/slides/presentation/display_slide_based_on_type";
 import { ViewSlides } from "../../../../../lib/features/slides/presentation/view_slides";
 
 export default function index() {
-  const router = useRouter();
-  const { data, error } = useSWR(api_routes.get_slides, () =>
-    SlidesRepositery.getAll(router.query.lessonID as string)
-  );
+  const { slides, isValidating } = useSlides();
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  if (!data) return <div>Loading...</div>;
+  if (isValidating) return <div>Loading...</div>;
+  if (!slides) return <div>Loading...</div>;
 
   return (
     <LessonLayout
       slides={
         <ViewSlides
-          slides={data}
+          slides={slides}
           currentSlideIndex={currentSlide}
           setCurrentSlide={setCurrentSlide}
         />
@@ -33,7 +29,7 @@ export default function index() {
         } transition-all duration-150`}
       >
         <Wrapper>
-          <DisplaySlideBasedOnType slide={data[currentSlide]} />
+          <DisplaySlideBasedOnType slide={slides[currentSlide]} />
         </Wrapper>
       </div>
     </LessonLayout>

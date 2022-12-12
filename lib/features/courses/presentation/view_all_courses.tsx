@@ -8,15 +8,20 @@ import CreataCourseButton from "./create_course_button";
 
 const ViewAllCourses = () => {
   const router = useRouter();
-  const { error, data, mutate } = useSWR(
+  const { error, data, isValidating } = useSWR(
     api_routes.get_all_courses,
-    CourseRepositery.getAll
+    CourseRepositery.getAll,
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   if (error) {
     return <div>failed to load</div>;
   }
-
+  if (isValidating) {
+    return <div>loading...</div>;
+  }
   if (!data) {
     return <div>loading...</div>;
   }

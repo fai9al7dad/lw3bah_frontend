@@ -8,7 +8,8 @@ import {
 import { api_routes } from "../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../common/hooks/use_submit";
 import { SectionsRepositery } from "../data/repositeries/sections_repositery";
-import { Section } from "../entities/section";
+import { Section } from "../domain/entities/section";
+import useSection from "../domain/usecases/use_section";
 
 export default function CreateSection({
   setShowModal,
@@ -18,7 +19,7 @@ export default function CreateSection({
   courseID: any;
 }) {
   const { send, loading } = useSubmit();
-  const { mutate } = useSWRConfig();
+  const { create } = useSection();
   const [formState, setFormState] = React.useState({
     title: "",
   });
@@ -37,13 +38,9 @@ export default function CreateSection({
       title: formState.title,
       courseID: courseID,
     };
-    const sectionsRepo = new SectionsRepositery();
 
-    send({
-      sendFunction: () => sectionsRepo.create(new Section({ ...payload })),
-      onSuccess: (res) => {
-        mutate(api_routes.get_sections + "/" + courseID);
-      },
+    create({
+      payload,
     });
   };
   return (

@@ -9,7 +9,6 @@ export class Slide {
   videoUrl?: string;
   question?: string;
   correctAnswer?: string;
-  type?: string;
 
   constructor({
     id,
@@ -22,7 +21,6 @@ export class Slide {
     videoUrl,
     question,
     correctAnswer,
-    type,
   }: {
     id?: number;
     lessonID?: number;
@@ -34,7 +32,6 @@ export class Slide {
     videoUrl?: string;
     question?: string;
     correctAnswer?: string;
-    type?: string;
   }) {
     this.id = id;
     this.lessonID = lessonID;
@@ -46,7 +43,6 @@ export class Slide {
     this.videoUrl = videoUrl;
     this.question = question;
     this.correctAnswer = correctAnswer;
-    this.type = type;
   }
 
   static TEXT_CONTENT = "text_content";
@@ -83,6 +79,26 @@ export class Slide {
     ["multipleChoice", Slide.MULTIPLE_CHOICE_QUESTION],
     ["mediaAndText", Slide.MEDIA_CONTENT],
   ]);
+
+  // translate slide type to arabic
+  static translateSlideTypeToArabic(slideType?: string): string {
+    switch (slideType) {
+      case Slide.TEXT_CONTENT:
+        return "محتوى نصي";
+      case Slide.TRUE_FALSE_QUESTION:
+        return "سؤال صح أم خطأ";
+      case Slide.MULTIPLE_CHOICE_QUESTION:
+        return "سؤال اختياري";
+      case Slide.MEDIA_CONTENT:
+        return "محتوى متعدد";
+      case Slide.VIDEO_CONTENT:
+        return "محتوى فيديو";
+      case Slide.IMAGE_CONTENT:
+        return "محتوى صورة";
+      default:
+        return "";
+    }
+  }
 
   // convert api slide type to slide type
   // static convertApiSlideTypeToSlideType(apiSlideType: string): string {

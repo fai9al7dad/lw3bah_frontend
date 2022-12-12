@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { useSWRConfig } from "swr";
+import { useLesson } from "../../../features/lessons/domain/usecases/use_lesson";
 import { SlidesRepositery } from "../../../features/slides/data/repositeries/SlidesRepositery";
 import { Slide } from "../../../features/slides/domain/entities/slide";
 import { api_routes } from "../../data/data_sources/api_routes";
 import useSubmit from "../../hooks/use_submit";
 import { NavigationButton, PrimaryButton, SecondaryButton } from "../atoms";
+import Modal from "../modal";
 
 export default function LessonLayout({
   children,
@@ -17,6 +19,8 @@ export default function LessonLayout({
   const [showQuestionPopup, setShowQuestionPopup] = React.useState(false);
   const [showContentPopup, setShowContentPopup] = React.useState(false);
   const { send } = useSubmit();
+  const { lesson, isValidating } = useLesson();
+
   const router = useRouter();
   const { mutate } = useSWRConfig();
   const handleSubmit = (type: string) => {
@@ -51,23 +55,39 @@ export default function LessonLayout({
 
   return (
     <div>
-      <div className="border-b border-netural-300 py-5 px-10 flex items-center justify-end  ">
-        <SecondaryButton
-          className="text-sm mx-2"
-          onClick={() => router.push(`/course/${router.query.courseID}`)}
-        >
-          عودة
-        </SecondaryButton>
-        <PrimaryButton className="text-sm">نشر</PrimaryButton>
+      <div className="border-b border-netural-300 py-5 px-10 flex items-center justify-between  ">
+        <div className="flex">
+          <SecondaryButton
+            className="text-sm mx-2"
+            onClick={() => router.push(`/course/${router.query.courseID}`)}
+          >
+            عودة
+          </SecondaryButton>
+          <PrimaryButton className="text-sm">نشر</PrimaryButton>
+        </div>
+        <div className="text-2xl font-bold">
+          {!isValidating && lesson?.title}
+        </div>
+        <div>
+          <Modal
+            trigger={
+              <SecondaryButton className="text-sm">حذف الدرس</SecondaryButton>
+            }
+          >
+            <DeleteLessonModal />
+          </Modal>
+        </div>
       </div>
 
       <div className="grid grid-cols-6">
         <div className="col-span-1 min-h-[87vh] overflow-y-auto border-l border-netural-300 relative">
-          <div className="py-5 px-5">{slides}</div>
+          <div className="h-[60vh] max-h-[60vh] overflow-y-scroll">
+            <div className="py-5 px-5 ">{slides}</div>
+          </div>
 
-          <div className="absolute w-full px-5 bottom-10 ">
+          <div className="absolute w-full px-5 bottom-0 bg-white pb-10">
             <PrimaryButton
-              className="w-full mb-5"
+              className="w-full mb-5 text-sm"
               onClick={() => {
                 setShowContentPopup(false);
                 setShowQuestionPopup(!showQuestionPopup);
@@ -80,7 +100,7 @@ export default function LessonLayout({
                 setShowQuestionPopup(false);
                 setShowContentPopup(!showContentPopup);
               }}
-              className="w-full"
+              className="w-full text-sm"
             >
               إضافة شريحة
             </PrimaryButton>
@@ -165,6 +185,27 @@ const PopUp = ({
           }`}
         />
         {children}
+      </div>
+    </div>
+  );
+};
+
+const DeleteLessonModal = ({ setShowModal }: { setShowModal?: any }) => {
+  const { del } = useLesson();
+  return (
+    <div className="text-center">
+      <p className="text-xl font-bold">هل أنت متأكد؟</p>
+      <p className="text-sm text-netural-500">سيتم حذف الدرس بشكل نهائي</p>
+      <div className="flex justify-center mt-5">
+        <SecondaryButton
+          className="text-sm mx-2"
+          onClick={() => setShowModal(false)}
+        >
+          إلغاء
+        </SecondaryButton>
+        <PrimaryButton className="text-sm mx-2" onClick={() => del()}>
+          حذف
+        </PrimaryButton>
       </div>
     </div>
   );
