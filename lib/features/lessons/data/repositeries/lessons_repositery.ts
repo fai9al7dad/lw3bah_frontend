@@ -51,6 +51,7 @@ export class LessonsRepositery {
         },
       });
       const data = res.data;
+
       return new Lesson({
         id: data._id,
         description: data.description,

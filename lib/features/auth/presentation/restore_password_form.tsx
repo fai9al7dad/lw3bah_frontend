@@ -1,19 +1,20 @@
 import Link from "next/link";
-import React, { useState } from "react";
-import {
-  PrimaryButton,
-  TextInput,
-  Wrapper,
-} from "../../../common/components/atoms";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { PrimaryButton, TextInput } from "../../../common/components/atoms";
 import InputError from "../../../common/components/atoms/input_error";
-import { AuthLayout } from "../../../common/components/layouts/auth_layout";
 import { useAuth } from "../domain/usecases/use_auth";
 
-export default function RegisterForm() {
-  const { register } = useAuth({
-    middleware: "guest",
-    redirectIfAuthenticated: "/",
-  });
+const PasswordReset = () => {
+  const router = useRouter();
+
+  const { resetPassword } = useAuth({ middleware: "guest" });
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errors, setErrors] = useState<any>([]);
+  const [status, setStatus] = useState(null);
 
   const [formState, setFormState] = useState({
     email: "",
@@ -23,7 +24,6 @@ export default function RegisterForm() {
     name: "",
     role: "teacher",
   });
-
   const onChange = (event: any) => {
     if (event.target.name === "email") {
       setFormState({
@@ -39,17 +39,23 @@ export default function RegisterForm() {
       [event.target.name]: event.target.value,
     });
   };
-  const [errors, setErrors] = useState<any>([]);
+
   const submitForm = (event: any) => {
     event.preventDefault();
 
-    register({
-      ...formState,
-      email: formState.email.toLowerCase(),
-      username: formState.username.toLowerCase(),
+    resetPassword({
+      email,
+      password,
+      password_confirmation: passwordConfirmation,
       setErrors,
+      setStatus,
     });
   };
+
+  useEffect(() => {
+    setEmail(router.query.email || "");
+  }, [router.query.email]);
+
   return (
     <form onSubmit={submitForm}>
       <TextInput
@@ -103,7 +109,9 @@ export default function RegisterForm() {
       />
       <InputError messages={errors.password_confirmation} className="my-2" />
 
-      <PrimaryButton className="my-5 w-full">تسجيل</PrimaryButton>
+      <PrimaryButton className="my-5 w-full">
+        استعادة كلمة المرور{" "}
+      </PrimaryButton>
       <hr />
       <div className="text-sm mt-4 text-center">
         لديك حساب؟{" "}
@@ -116,4 +124,6 @@ export default function RegisterForm() {
       </div>
     </form>
   );
-}
+};
+
+export default PasswordReset;

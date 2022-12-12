@@ -7,6 +7,7 @@ import {
   Wrapper,
 } from "../../lib/common/components/atoms";
 import MainLayout from "../../lib/common/components/layouts/main_layout";
+import { useAuth } from "../../lib/features/auth/domain/usecases/use_auth";
 
 import ViewAllCourses from "../../lib/features/courses/presentation/view_all_courses";
 

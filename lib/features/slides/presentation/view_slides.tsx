@@ -18,13 +18,16 @@ export const ViewSlides = ({
         <NavigationButton
           key={i}
           onClick={() => setCurrentSlide(i)}
-          className={`w-full mb-2 ${
+          className={`w-full mb-2  px-5   text-right font-normal 2xl:flex justify-start ${
             currentSlideIndex == i
               ? "bg-neutral-300 shadow-secondary-button border-neutral-300 max-w-full"
-              : ""
+              : " "
           }`}
         >
-          {Slide.translateSlideTypeToArabic(slide.slideType)} {i + 1}
+          <div>{i + 1} -</div>
+          <div className="mr-1">
+            {Slide.translateSlideTypeToArabic(slide.slideType)}
+          </div>
         </NavigationButton>
       ))}
     </div>

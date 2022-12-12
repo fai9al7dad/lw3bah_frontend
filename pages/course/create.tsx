@@ -2,9 +2,13 @@ import Head from "next/head";
 import Link from "next/link";
 import { SecondaryButton, Wrapper } from "../../lib/common/components/atoms";
 import MainLayout from "../../lib/common/components/layouts/main_layout";
+import { useAuth } from "../../lib/features/auth/domain/usecases/use_auth";
 import CreateCourse from "../../lib/features/courses/presentation/CreateCourse";
 
 export default function Home() {
+  const {} = useAuth({
+    middleware: "auth",
+  });
   return (
     <MainLayout>
       {/* <Head>

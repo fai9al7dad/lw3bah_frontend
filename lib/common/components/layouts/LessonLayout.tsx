@@ -4,6 +4,7 @@ import { useSWRConfig } from "swr";
 import { useLesson } from "../../../features/lessons/domain/usecases/use_lesson";
 import { SlidesRepositery } from "../../../features/slides/data/repositeries/SlidesRepositery";
 import { Slide } from "../../../features/slides/domain/entities/slide";
+import { useSlides } from "../../../features/slides/domain/usecases/use_slides";
 import { api_routes } from "../../data/data_sources/api_routes";
 import useSubmit from "../../hooks/use_submit";
 import { NavigationButton, PrimaryButton, SecondaryButton } from "../atoms";
@@ -20,9 +21,9 @@ export default function LessonLayout({
   const [showContentPopup, setShowContentPopup] = React.useState(false);
   const { send } = useSubmit();
   const { lesson, isValidating } = useLesson();
+  const { mutate: mutateSlides } = useSlides();
 
   const router = useRouter();
-  const { mutate } = useSWRConfig();
   const handleSubmit = (type: string) => {
     const apiType = Slide.api_slide_types.get(type) as string;
 
@@ -35,7 +36,7 @@ export default function LessonLayout({
           });
         },
         onSuccess: (data) => {
-          mutate(api_routes.get_slides);
+          mutateSlides();
         },
       });
     } else {
@@ -47,7 +48,7 @@ export default function LessonLayout({
           });
         },
         onSuccess: (data) => {
-          mutate(api_routes.get_slides);
+          mutateSlides();
         },
       });
     }
@@ -55,10 +56,10 @@ export default function LessonLayout({
 
   return (
     <div>
-      <div className="border-b border-netural-300 py-5 px-10 flex items-center justify-between  ">
+      <div className="border-b border-netural-300 py-5 px-5 flex items-center justify-between  ">
         <div className="flex">
           <SecondaryButton
-            className="text-sm mx-2"
+            className="text-sm ml-2"
             onClick={() => router.push(`/course/${router.query.courseID}`)}
           >
             عودة
@@ -81,11 +82,10 @@ export default function LessonLayout({
 
       <div className="grid grid-cols-6">
         <div className="col-span-1 min-h-[87vh] overflow-y-auto border-l border-netural-300 relative">
-          <div className="h-[60vh] max-h-[60vh] overflow-y-scroll">
+          <div className="h-[60vh] max-h-[60vh]  overflow-y-scroll">
             <div className="py-5 px-5 ">{slides}</div>
           </div>
-
-          <div className="absolute w-full px-5 bottom-0 bg-white pb-10">
+          <div className="fixed w-1/6  px-5 bottom-5  ">
             <PrimaryButton
               className="w-full mb-5 text-sm"
               onClick={() => {
@@ -151,7 +151,7 @@ export default function LessonLayout({
             </PopUp>
           ) : null}
           <div className="flex items-center justify-center min-h-[85vh]">
-            <div className="w-2/6">{children}</div>
+            <div className="w-2/6 py-20">{children}</div>
           </div>
         </div>
       </div>

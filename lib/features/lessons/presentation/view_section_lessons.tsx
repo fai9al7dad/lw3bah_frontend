@@ -12,7 +12,10 @@ export default function ViewSectionLessons({ lessons }: { lessons: Lesson[] }) {
   return (
     <div>
       {lessons.map((lesson) => (
-        <Link href={`/course/${router.query.courseID}/lesson/${lesson.id}`}>
+        <Link
+          key={lesson.id}
+          href={`/course/${router.query.courseID}/lesson/${lesson.id}`}
+        >
           <NavigationButton className="mt-2">
             <ViewLesson key={lesson.id} lesson={lesson} />
           </NavigationButton>

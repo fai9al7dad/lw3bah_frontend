@@ -5,8 +5,8 @@ import MediaWithDescriptionForm from "./MediaWithDescriptionForm";
 import TitleBodyContentForm from "./TitleBodyContentForm";
 
 export const DisplaySlideBasedOnType = ({ slide }: { slide: Slide }) => {
-  if (!slide) return <div>Not Found</div>;
-  switch (slide.type) {
+  if (!slide) return <div>Not slide</div>;
+  switch (slide.slideType) {
     case Slide.TEXT_CONTENT:
       return <TitleBodyContentForm slide={slide} />;
     case Slide.IMAGE_CONTENT:

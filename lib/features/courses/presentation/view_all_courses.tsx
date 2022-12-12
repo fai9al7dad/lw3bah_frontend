@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { PrimaryButton } from "../../../common/components/atoms";
 import { api_routes } from "../../../common/data/data_sources/api_routes";
+import { Course } from "../domain/entities/course";
 import { CourseRepositery } from "../reposeteries/CourseRepositery";
 import CourseItem from "./course_item";
 import CreataCourseButton from "./create_course_button";
@@ -45,8 +46,8 @@ const ViewAllCourses = () => {
   }
   return (
     <div>
-      {data.map((course) => (
-        <CourseItem course={course} className="mb-5" />
+      {data.map((course: Course) => (
+        <CourseItem key={course.id} course={course} className="mb-5" />
       ))}
     </div>
   );

@@ -7,7 +7,7 @@
     @apply relative inline-block;
   }
   .tooltip-content {
-    @apply py-2 text-xs  w-auto min-w-max flex items-center justify-center px-2 absolute z-20 origin-bottom bottom-12  inset-x-0 scale-0 translate-x-[-30px]  bg-neutral-200 border border-neutral-300 rounded-lg transition-all duration-150;
+    @apply py-2 text-xs  w-auto min-w-max flex items-center justify-center px-2 absolute z-20 origin-bottom bottom-12  inset-x-0 scale-0 translate-x-10  bg-neutral-200 border border-neutral-300 rounded-lg transition-all duration-150;
   }
 }
 

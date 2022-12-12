@@ -4,15 +4,22 @@ import React, { useEffect, useState } from "react";
 import { PrimaryButton, TextInput } from "../../../common/components/atoms";
 import InputError from "../../../common/components/atoms/input_error";
 import { useAuth } from "../domain/usecases/use_auth";
+import AuthSessionStatus from "./auth_session_status";
 
 export default function LoginForm() {
+  const router = useRouter();
   const { login } = useAuth({
     middleware: "guest",
     redirectIfAuthenticated: "/",
   });
-
   const [status, setStatus] = useState(null);
-
+  useEffect(() => {
+    if (router.query?.reset?.length > 0 && errors.length === 0) {
+      setStatus(atob(router.query.reset));
+    } else {
+      setStatus(null);
+    }
+  });
   const [formState, setFormState] = useState({
     email: "",
     password: "",
@@ -38,6 +45,8 @@ export default function LoginForm() {
   };
   return (
     <form onSubmit={submitForm}>
+      <AuthSessionStatus className="mb-4" status={status} />
+
       <TextInput
         label="البريد الإلكتروني"
         name="email"
@@ -56,8 +65,13 @@ export default function LoginForm() {
         type="password"
         value={formState.password}
         placeholder="ادخل كلمة المرور"
-        className="mb-5"
+        className=""
       />
+      <Link href="/auth/forgot_password" className="">
+        <div className=" text-sm  text-blue-500 mt-2 mb-2 hover:underline">
+          نسيت كلمة المرور{" "}
+        </div>
+      </Link>
       <InputError messages={errors.password} className="mt-2" />
       <div className="block mb-4 ">
         <label htmlFor="remember_me" className="inline-flex items-center">

@@ -134,10 +134,11 @@ export class SlidesRepositery {
         },
       });
       const data = res.data;
+      console.log(data);
 
       return data.map((slide: any) => {
         return new Slide({
-          id: slide.id,
+          id: slide._id,
           lessonID: slide.lesson_id,
           order: slide.order,
           slideType: Slide.api_to_slide_type.get(

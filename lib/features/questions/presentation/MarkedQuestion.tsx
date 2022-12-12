@@ -22,6 +22,7 @@ export default function MarkedQuestion({
       className={`py-7 px-5 transition-all duration-75 flex items-center justify-between bg-white border border-neutral-200 text-neutral-700 font-bold rounded-lg ${className}`}
       {...props}
     >
+      <div>{children}</div>
       <HoverToolTip
         content={"تعليم كإجابة صحيحة"}
         showToolTip={isCorrect ? false : true}
@@ -32,8 +33,6 @@ export default function MarkedQuestion({
           }`}
         />
       </HoverToolTip>
-
-      <div>{children}</div>
     </div>
   );
 }

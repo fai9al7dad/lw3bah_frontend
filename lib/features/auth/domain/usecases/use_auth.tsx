@@ -14,19 +14,30 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
     data: user,
     error,
     mutate,
-  } = useSWR("/api/user", () =>
-    axios
-      .get("/api/user")
-      .then((res) => res.data)
-      .catch((error) => {
-        if (error.response.status !== 409) throw error;
-        router.push("/verify-email");
-      })
+  } = useSWR(
+    "/api/user",
+    () =>
+      axios
+        .get("/api/user")
+        .then((res) => res.data)
+        .catch((error) => {
+          if (error.response.status !== 409) throw error;
+          router.push("/verify-email");
+        }),
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
-  const register = async ({ setErrors, ...props }: { setErrors: any }) => {
+  const register = async ({
+    setErrors,
+    ...props
+  }: {
+    setErrors: any;
+    [x: string]: any;
+  }) => {
     await csrf();
 
     setErrors([]);
@@ -48,6 +59,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
   }: {
     setErrors: any;
     setStatus: any;
+    [x: string]: any;
   }) => {
     await csrf();
 

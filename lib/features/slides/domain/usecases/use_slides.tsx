@@ -9,6 +9,7 @@ export const useSlides = () => {
     data: slides,
     error,
     isValidating,
+    mutate,
   } = useSWR(
     api_routes.get_slides + "?lesson_id=" + router.query.lessonID,
     () => SlidesRepositery.getAll(router.query.lessonID as string),
@@ -17,5 +18,5 @@ export const useSlides = () => {
     }
   );
 
-  return { slides, error, isValidating };
+  return { slides, error, isValidating, mutate };
 };
