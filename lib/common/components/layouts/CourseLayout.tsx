@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { toast } from "react-toastify";
 import useSWR from "swr";
 import useCourse from "../../../features/courses/domain/usecases/useCourse";
 import CreateCourse from "../../../features/courses/presentation/CreateCourse";
@@ -8,7 +9,12 @@ import { UpdateCourseDetails } from "../../../features/courses/presentation/upda
 import { CourseRepositery } from "../../../features/courses/reposeteries/CourseRepositery";
 import { api_routes } from "../../data/data_sources/api_routes";
 import AnimatedSidebar from "../AnimatedSidebar";
-import { NavigationButton, PrimaryButton, SecondaryButton } from "../atoms";
+import {
+  NavigationButton,
+  PrimaryButton,
+  SecondaryButton,
+  TextInput,
+} from "../atoms";
 import Modal from "../modal";
 
 export default function CourseLayout({
@@ -56,19 +62,34 @@ export default function CourseLayout({
 }
 
 const DeleteCourseModal = ({ setShowModal }: { setShowModal?: any }) => {
-  const router = useRouter();
+  const { course, del } = useCourse();
+  const [title, setTitle] = React.useState<string>("");
   return (
     <div>
-      <div className="text-center text-2xl font-bold mb-10">
+      <div className="text-center text-2xl font-bold mb-2">
         هل انت متاكد من حذف الدورة؟
+      </div>
+      <div className="text-sm mb-10 text-center">
+        هذا الاجراء لا يمكن التراجع عنه
+      </div>
+
+      <TextInput
+        className="w-full"
+        value={title}
+        onChange={(e: any) => setTitle(e.target.value)}
+        label="اكتب اسم الدورة للتأكيد"
+      />
+      <div className="text-sm mt-2 mb-20 text-right">
+        اسم الدورة: {course?.title}
       </div>
       <div className="flex justify-between">
         <PrimaryButton
           className="w-1/2"
           onClick={() => {
+            if (title !== course?.title)
+              return toast.error("اسم الدورة غير صحيح");
             setShowModal(false);
-            CourseRepositery.delete(router.query.courseID as string);
-            router.replace("/courses");
+            del();
           }}
         >
           نعم

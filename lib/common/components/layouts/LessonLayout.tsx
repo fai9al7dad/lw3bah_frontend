@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { toast } from "react-toastify";
 import { useSWRConfig } from "swr";
 import { useLesson } from "../../../features/lessons/domain/usecases/use_lesson";
 import { SlidesRepositery } from "../../../features/slides/data/repositeries/SlidesRepositery";
@@ -7,7 +8,12 @@ import { Slide } from "../../../features/slides/domain/entities/slide";
 import { useSlides } from "../../../features/slides/domain/usecases/use_slides";
 import { api_routes } from "../../data/data_sources/api_routes";
 import useSubmit from "../../hooks/use_submit";
-import { NavigationButton, PrimaryButton, SecondaryButton } from "../atoms";
+import {
+  NavigationButton,
+  PrimaryButton,
+  SecondaryButton,
+  TextInput,
+} from "../atoms";
 import Modal from "../modal";
 
 export default function LessonLayout({
@@ -81,7 +87,7 @@ export default function LessonLayout({
       </div>
 
       <div className="grid grid-cols-6">
-        <div className="col-span-1 min-h-[87vh] overflow-y-auto border-l border-netural-300 relative">
+        <div className="col-span-1  border-l border-netural-300 relative">
           <div className="h-[60vh] max-h-[60vh]  overflow-y-scroll">
             <div className="py-5 px-5 ">{slides}</div>
           </div>
@@ -191,11 +197,23 @@ const PopUp = ({
 };
 
 const DeleteLessonModal = ({ setShowModal }: { setShowModal?: any }) => {
-  const { del } = useLesson();
+  const { lesson, del } = useLesson();
+  const [title, setTitle] = React.useState<string>("");
   return (
     <div className="text-center">
-      <p className="text-xl font-bold">هل أنت متأكد؟</p>
-      <p className="text-sm text-netural-500">سيتم حذف الدرس بشكل نهائي</p>
+      <p className="text-xl font-bold mb-2">هل أنت متأكد؟</p>
+      <p className="text-sm text-netural-500 mb-10">
+        سيتم حذف الدرس بشكل نهائي
+      </p>
+      <TextInput
+        className="w-full"
+        value={title}
+        onChange={(e: any) => setTitle(e.target.value)}
+        label="اكتب اسم الدرس للتأكيد"
+      />
+      <div className="text-sm mt-2 mb-20 text-right">
+        اسم الدرس: {lesson?.title}
+      </div>
       <div className="flex justify-center mt-5">
         <SecondaryButton
           className="text-sm mx-2"
@@ -203,7 +221,15 @@ const DeleteLessonModal = ({ setShowModal }: { setShowModal?: any }) => {
         >
           إلغاء
         </SecondaryButton>
-        <PrimaryButton className="text-sm mx-2" onClick={() => del()}>
+        <PrimaryButton
+          className="text-sm mx-2"
+          onClick={() => {
+            if (lesson?.title !== title)
+              return toast.error("الرجاء كتابة اسم الدرس بشكل صحيح");
+
+            del();
+          }}
+        >
           حذف
         </PrimaryButton>
       </div>

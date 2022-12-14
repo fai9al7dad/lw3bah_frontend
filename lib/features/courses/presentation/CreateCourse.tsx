@@ -1,14 +1,14 @@
-import { useRouter } from "next/router";
 import React from "react";
-import { toast } from "react-toastify";
 import {
+  CreateAbleSelectInput,
   PrimaryButton,
   TextAreaInput,
   TextInput,
 } from "../../../common/components/atoms";
 import useSubmit from "../../../common/hooks/use_submit";
 import useCourse from "../domain/usecases/useCourse";
-import { CourseRepositery } from "../reposeteries/CourseRepositery";
+import Creatable, { useCreatable } from "react-select/creatable";
+import { publishedTags } from "../../../common/data/data_sources/published_tags";
 
 export default function CreateCourse() {
   const { loading } = useSubmit();
@@ -16,6 +16,7 @@ export default function CreateCourse() {
   const [formState, setFormState] = React.useState({
     title: "",
     description: "",
+    tags: [],
   });
   const onChange = (event: any) => {
     setFormState({
@@ -24,14 +25,13 @@ export default function CreateCourse() {
     });
   };
   const onSubmit = (e: any) => {
+    if (formState.tags.length === 0)
+      return alert("يجب اختيار تصنيف واحد على الاقل");
     if (loading) return;
 
     e.preventDefault();
     create({
-      payload: {
-        title: formState.title,
-        description: formState.description,
-      },
+      payload: { ...formState },
     });
   };
 
@@ -51,6 +51,24 @@ export default function CreateCourse() {
         label="وصف الدورة"
         className="mb-5"
       />
+      <CreateAbleSelectInput
+        isMulti
+        isClearable
+        options={publishedTags}
+        onChange={(e: any) => {
+          const tags = e.map((tag: any) => tag.value);
+          setFormState({
+            ...formState,
+            tags: tags,
+          });
+        }}
+        name="tags"
+        label="التصنيفات"
+      />
+      <div className="text-xs mb-5 mt-2">
+        مطلوب تصنيف واحد على الأقل، يمكن التعديل عليه لاحقا
+      </div>
+
       {loading ? (
         <div>loading...</div>
       ) : (

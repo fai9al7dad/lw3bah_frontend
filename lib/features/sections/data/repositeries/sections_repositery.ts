@@ -44,6 +44,7 @@ export class SectionsRepositery {
               description: lesson.description,
               sectionID: lesson.section_id,
               order: lesson.order,
+              createdAt: lesson.created_at,
             };
           }),
         });

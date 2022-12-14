@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import React, { useRef } from "react";
+import React from "react";
 import { Wrapper } from "../../../../../lib/common/components/atoms";
 import LessonLayout from "../../../../../lib/common/components/layouts/LessonLayout";
 import { useAuth } from "../../../../../lib/features/auth/domain/usecases/use_auth";
@@ -8,20 +7,30 @@ import { DisplaySlideBasedOnType } from "../../../../../lib/features/slides/pres
 import { ViewSlides } from "../../../../../lib/features/slides/presentation/view_slides";
 
 export default function index() {
-  const { slides, isValidating } = useSlides();
-  const [currentSlide, setCurrentSlide] = React.useState(0);
+  const {
+    slides,
+    currentSlide,
+    slideIsChanging,
+    changeCurrentSlide,
+    updateSlideOrder,
+  } = useSlides();
   const {} = useAuth({
     middleware: "auth",
   });
+
+  React.useEffect(() => {
+    changeCurrentSlide(slides?.[0]);
+  }, []);
   if (!slides) return <div>Loading...</div>;
 
   return (
     <LessonLayout
       slides={
         <ViewSlides
+          changeCurrentSlide={changeCurrentSlide}
+          currentSlide={currentSlide}
+          updateSlideOrder={updateSlideOrder}
           slides={slides}
-          currentSlideIndex={currentSlide}
-          setCurrentSlide={setCurrentSlide}
         />
       }
     >
@@ -31,7 +40,11 @@ export default function index() {
         } transition-all duration-150`}
       >
         <Wrapper>
-          <DisplaySlideBasedOnType slide={slides[currentSlide]} />
+          {slideIsChanging ? (
+            <div>...</div>
+          ) : (
+            <DisplaySlideBasedOnType slide={currentSlide} />
+          )}
         </Wrapper>
       </div>
     </LessonLayout>

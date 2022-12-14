@@ -23,4 +23,5 @@ export const api_routes = {
   create_question_slide: `${prefix}/add-question-to-lesson`,
   update_question_slide: `${prefix}/update-question-slide`,
   delete_slide: `${prefix}/delete-slide`,
+  update_slide_order: `${prefix}/update-slide-order`,
 };

@@ -28,6 +28,7 @@ export default function useCourse() {
     payload: {
       title: string;
       description: string;
+      tags: string[];
     };
   }) => {
     send({
@@ -44,10 +45,10 @@ export default function useCourse() {
   const del = async () => {
     send({
       sendFunction: () => {
-        return CourseRepositery.delete(router.query.lessonID as string);
+        return CourseRepositery.delete(router.query.courseID as string);
       },
       onSuccess: () => {
-        router.replace(`/course/${router.query.courseID}`);
+        router.replace(`/courses`);
       },
     });
   };
@@ -58,6 +59,8 @@ export default function useCourse() {
     payload: {
       title: string;
       description: string;
+      id: any;
+      tags: string[];
     };
   }) => {
     send({

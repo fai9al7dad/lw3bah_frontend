@@ -17,8 +17,8 @@ export default function CourseItem({
       >
         <div className="text-sm font-bold ">{course.title}</div>
         <div className="flex items-center  mt-2 text-xs ">
-          <div className="">قبل شهر</div>
-          <div className=" mr-2">عشرة الأف مشاهدة</div>
+          <div className="">{course.createdAt}</div>
+          {/* <div className=" mr-2">عشرة الأف مشاهدة</div> */}
         </div>
       </NavigationButton>
     </Link>

@@ -134,7 +134,6 @@ export class SlidesRepositery {
         },
       });
       const data = res.data;
-      console.log(data);
 
       return data.map((slide: any) => {
         return new Slide({
@@ -155,6 +154,33 @@ export class SlidesRepositery {
         params: {
           slide_id: slideID,
         },
+      });
+      const slide = res.data;
+
+      return new Slide({
+        id: slide.id,
+        lessonID: slide.lesson_id,
+        order: slide.order,
+        slideType: Slide.api_to_slide_type.get(
+          slide.type === "question" ? slide.question_type : slide.content_type
+        ),
+        title: slide.title,
+        description: slide.description,
+        imageUrl: slide.image_url,
+        videoUrl: slide.video_url,
+        question: slide.question,
+        correctAnswer: slide.correct_answer,
+        answers: slide.answers,
+      });
+    });
+    return c;
+  }
+
+  static async updateOrder(slide: Slide): Promise<Slide> {
+    const c: any = safeAxiosHandler(async () => {
+      const res = await axios.post(api_routes.update_slide_order, {
+        slide_id: slide.id,
+        order: slide.order,
       });
       const data = res.data;
       return new Slide({

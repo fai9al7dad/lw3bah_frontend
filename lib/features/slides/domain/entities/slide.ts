@@ -9,6 +9,7 @@ export class Slide {
   videoUrl?: string;
   question?: string;
   correctAnswer?: string;
+  answers?: string[];
 
   constructor({
     id,
@@ -21,6 +22,7 @@ export class Slide {
     videoUrl,
     question,
     correctAnswer,
+    answers,
   }: {
     id?: number;
     lessonID?: number;
@@ -32,7 +34,8 @@ export class Slide {
     videoUrl?: string;
     question?: string;
     correctAnswer?: string;
-  }) {
+    answers?: string[];
+  } = {}) {
     this.id = id;
     this.lessonID = lessonID;
     this.order = order;
@@ -43,6 +46,7 @@ export class Slide {
     this.videoUrl = videoUrl;
     this.question = question;
     this.correctAnswer = correctAnswer;
+    this.answers = answers;
   }
 
   static TEXT_CONTENT = "text_content";

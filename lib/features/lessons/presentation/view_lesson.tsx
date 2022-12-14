@@ -6,8 +6,8 @@ export default function ViewLesson({ lesson }: { lesson: Lesson }) {
     <div className="px-5 text-right">
       <div className="text-sm font-bold ">{lesson.title}</div>
       <div className="flex items-center  mt-2 text-xs ">
-        <div className="">قبل شهر</div>
-        <div className=" mr-2">عشرة الأف مشاهدة</div>
+        <div className="">{lesson.createdAt}</div>
+        {/* <div className=" mr-2">عشرة الأف مشاهدة</div> */}
       </div>
     </div>
   );

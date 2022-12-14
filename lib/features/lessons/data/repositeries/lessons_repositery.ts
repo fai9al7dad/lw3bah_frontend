@@ -56,6 +56,7 @@ export class LessonsRepositery {
         id: data._id,
         description: data.description,
         sectionID: data.section_id,
+        createdAt: data.created_at,
         title: data.title,
       });
     });
