@@ -24,7 +24,6 @@ export const ViewSlides = ({
     }
 
     updateSlideOrder(reorderedItem, items);
-    console.log({ reorderedItem });
   };
 
   return (

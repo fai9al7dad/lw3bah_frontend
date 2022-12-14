@@ -7,8 +7,6 @@ import {
 import { Slide } from "../domain/entities/slide";
 
 export default function TitleBodyContentForm({ slide }: { slide: Slide }) {
-  console.log({ slide });
-
   return (
     <form action="">
       <TextInput label="عنوان الشريحة" className="mb-5" required={false} />

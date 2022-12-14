@@ -35,7 +35,6 @@ export const useSlides = () => {
 
   const updateSlideOrder = async (slide: Slide, updatedSlides: Slide[]) => {
     await SlidesRepositery.updateOrder(slide);
-    console.log({ updatedSlides });
 
     mutate(updatedSlides);
   };
