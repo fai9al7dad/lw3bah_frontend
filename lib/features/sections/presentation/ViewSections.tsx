@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
 import { PrimaryButton } from "../../../common/components/atoms";
+import LoadingSpinner from "../../../common/components/atoms/loading_spinner";
 import Modal from "../../../common/components/modal";
 import { api_routes } from "../../../common/data/data_sources/api_routes";
 import { SectionsRepositery } from "../data/repositeries/sections_repositery";
@@ -20,7 +21,7 @@ export default function ViewSections() {
   }
 
   if (!sections) {
-    return <div>loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (sections?.length === 0) {

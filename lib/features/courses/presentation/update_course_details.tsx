@@ -7,6 +7,7 @@ import {
   TextAreaInput,
   TextInput,
 } from "../../../common/components/atoms";
+import LoadingSpinner from "../../../common/components/atoms/loading_spinner";
 import { api_routes } from "../../../common/data/data_sources/api_routes";
 import { publishedTags } from "../../../common/data/data_sources/published_tags";
 import useSubmit from "../../../common/hooks/use_submit";
@@ -14,9 +15,8 @@ import useCourse from "../domain/usecases/useCourse";
 import { CourseRepositery } from "../reposeteries/CourseRepositery";
 
 export const UpdateCourseDetails = () => {
-  const { course, update } = useCourse();
+  const { course, update, isValidating } = useCourse();
   const router = useRouter();
-  const { send, errors, response, loading } = useSubmit();
   const [formState, setFormState] = React.useState({
     title: course?.title ?? "",
     description: course?.description ?? "",
@@ -44,6 +44,9 @@ export const UpdateCourseDetails = () => {
     });
   };
 
+  if (isValidating) {
+    return <LoadingSpinner />;
+  }
   return (
     <form onSubmit={onSubmit}>
       <TextInput

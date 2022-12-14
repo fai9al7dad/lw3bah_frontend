@@ -15,6 +15,7 @@ import {
   SecondaryButton,
   TextInput,
 } from "../atoms";
+import LoadingSpinner from "../atoms/loading_spinner";
 import Modal from "../modal";
 
 export default function CourseLayout({

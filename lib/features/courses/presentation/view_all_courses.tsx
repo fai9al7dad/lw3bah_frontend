@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { PrimaryButton } from "../../../common/components/atoms";
+import LoadingSpinner from "../../../common/components/atoms/loading_spinner";
 import { api_routes } from "../../../common/data/data_sources/api_routes";
 import { Course } from "../domain/entities/course";
 import { CourseRepositery } from "../reposeteries/CourseRepositery";
@@ -18,13 +19,13 @@ const ViewAllCourses = () => {
   );
 
   if (error) {
-    return <div>failed to load</div>;
+    return <div>حصل خطأ ما :(</div>;
   }
-  if (isValidating) {
-    return <div>loading...</div>;
-  }
+
+  if (isValidating) return <LoadingSpinner />;
+
   if (!data) {
-    return <div>loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (data.length === 0) {

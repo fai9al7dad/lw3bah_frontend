@@ -1,5 +1,6 @@
 import React from "react";
 import { Wrapper } from "../../../../../lib/common/components/atoms";
+import LoadingSpinner from "../../../../../lib/common/components/atoms/loading_spinner";
 import LessonLayout from "../../../../../lib/common/components/layouts/LessonLayout";
 import { useAuth } from "../../../../../lib/features/auth/domain/usecases/use_auth";
 import { useSlides } from "../../../../../lib/features/slides/domain/usecases/use_slides";
@@ -21,7 +22,12 @@ export default function index() {
   React.useEffect(() => {
     changeCurrentSlide(slides?.[0]);
   }, []);
-  if (!slides) return <div>Loading...</div>;
+  if (!slides)
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <LessonLayout
