@@ -5,7 +5,11 @@ export function SecondaryButton(
     className,
     children,
     onClick,
-  }: { className?: string; children?: React.ReactNode; onClick?: () => void },
+  }: {
+    className?: string;
+    children?: React.ReactNode;
+    onClick?: (e?: any) => void;
+  },
   props: any
 ) {
   return (

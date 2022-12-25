@@ -9,7 +9,7 @@ export default function MarkedQuestion({
   isCorrect,
   ...props
 }: {
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   isCorrect: boolean;
   children: React.ReactNode;
   className?: string;

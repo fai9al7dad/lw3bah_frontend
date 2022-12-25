@@ -66,7 +66,14 @@ export class SlidesRepositery {
 
   static async updateContent(slide: Slide): Promise<Slide> {
     const c: any = safeAxiosHandler(async () => {
-      const res = await axios.post(api_routes.update_content_slide, slide);
+      const res = await axios.post(api_routes.update_content_slide, {
+        slide_id: slide.id,
+        order: slide.order,
+        title: slide.title,
+        body: slide.description,
+        slide_type: Slide.api_slide_types.get(slide.slideType!),
+      });
+
       const data = res.data;
       return new Slide({
         id: data.id,
@@ -86,7 +93,18 @@ export class SlidesRepositery {
 
   static async updateQuestion(slide: Slide): Promise<Slide> {
     const c: any = safeAxiosHandler(async () => {
-      const res = await axios.post(api_routes.update_question_slide, slide);
+      const res = await axios.post(api_routes.update_question_slide, {
+        slide_id: slide.id,
+        order: slide.order,
+        title: slide.title,
+        answers: slide.answers?.map((answer) => {
+          return {
+            body: answer.body,
+            is_correct: answer.isCorrect,
+          };
+        }),
+        slide_type: Slide.api_slide_types.get(slide.slideType!),
+      });
       const data = res.data;
       return new Slide({
         id: data.id,
@@ -104,9 +122,11 @@ export class SlidesRepositery {
     return c;
   }
 
-  async delete(slide: Slide): Promise<Slide> {
+  static async delete(slide: Slide): Promise<Slide> {
     const c: any = safeAxiosHandler(async () => {
-      const res = await axios.post(api_routes.delete_slide, slide);
+      const res = await axios.post(api_routes.delete_slide, {
+        slide_id: slide.id,
+      });
       const data = res.data;
       return new Slide({
         id: data.id,
@@ -140,6 +160,14 @@ export class SlidesRepositery {
           id: slide._id,
           lessonID: slide.lesson_id,
           order: slide.order,
+          title: slide.title,
+          description: slide.body,
+          answers: slide.answers?.map((answer: any) => {
+            return {
+              body: answer.body,
+              isCorrect: answer.is_correct,
+            };
+          }),
           slideType: Slide.api_to_slide_type.get(
             slide.type === "question" ? slide.question_type : slide.content_type
           ),
@@ -148,33 +176,39 @@ export class SlidesRepositery {
     });
     return c;
   }
-  static async get(slideID: string): Promise<Slide> {
-    const c: any = safeAxiosHandler(async () => {
-      const res = await axios.get(api_routes.get_slide, {
-        params: {
-          slide_id: slideID,
-        },
-      });
-      const slide = res.data;
 
-      return new Slide({
-        id: slide.id,
-        lessonID: slide.lesson_id,
-        order: slide.order,
-        slideType: Slide.api_to_slide_type.get(
-          slide.type === "question" ? slide.question_type : slide.content_type
-        ),
-        title: slide.title,
-        description: slide.description,
-        imageUrl: slide.image_url,
-        videoUrl: slide.video_url,
-        question: slide.question,
-        correctAnswer: slide.correct_answer,
-        answers: slide.answers,
-      });
-    });
-    return c;
-  }
+  // static async get(slideID: string): Promise<Slide> {
+  //   const c: any = safeAxiosHandler(async () => {
+  //     const res = await axios.get(api_routes.get_slide, {
+  //       params: {
+  //         slide_id: slideID,
+  //       },
+  //     });
+  //     const slide = res.data;
+
+  //     return new Slide({
+  //       id: slide.id,
+  //       lessonID: slide.lesson_id,
+  //       order: slide.order,
+  //       slideType: Slide.api_to_slide_type.get(
+  //         slide.type === "question" ? slide.question_type : slide.content_type
+  //       ),
+  //       title: slide.title,
+  //       description: slide.body,
+  //       imageUrl: slide.image_url,
+  //       videoUrl: slide.video_url,
+  //       question: slide.question,
+  //       correctAnswer: slide.correct_answer,
+  //       answers: slide.answers.map((answer: any) => {
+  //         return {
+  //           body: answer.body,
+  //           isCorrect: answer.is_correct,
+  //         };
+  //       }),
+  //     });
+  //   });
+  //   return c;
+  // }
 
   static async updateOrder(slide: Slide): Promise<Slide> {
     const c: any = safeAxiosHandler(async () => {

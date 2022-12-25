@@ -13,6 +13,7 @@ export const ViewSlides = ({
   [x: string]: any;
 }) => {
   if (slides?.length === 0) return <div>There are no slides</div>;
+
   const handleOnDragEnd = (result: any) => {
     if (!result.destination) return;
     const items = Array.from(slides ?? []);

@@ -27,7 +27,7 @@ export function TextAreaInput({
           className={`border-2 border-netural-300 py-3 px-2 text-sm rounded-lg block resize-none w-full ${className}`}
         ></textarea>
         <div className="absolute text-xs text-opacity-50 bottom-1 left-1">
-          0/255
+          {props.value?.length}/255
         </div>
       </div>
     </div>

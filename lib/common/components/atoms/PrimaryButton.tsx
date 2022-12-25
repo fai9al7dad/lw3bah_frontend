@@ -8,7 +8,7 @@ export function PrimaryButton(
   }: {
     className?: string;
     children: React.ReactNode;
-    onClick?: () => void;
+    onClick?: (e?: any) => void;
     [x: string]: any;
   },
   props: any

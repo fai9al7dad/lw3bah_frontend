@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
 import { api_routes } from "../../../../common/data/data_sources/api_routes";
+import useSubmit from "../../../../common/hooks/use_submit";
 import { SlidesRepositery } from "../../data/repositeries/SlidesRepositery";
 import { Slide } from "../entities/slide";
 
@@ -26,6 +27,7 @@ export const useSlides = () => {
     }
   );
 
+  const { send } = useSubmit();
   const changeCurrentSlide = async (slide?: Slide) => {
     setSlideIsChanging(true);
     setCurrentSlide(slide);
@@ -34,10 +36,70 @@ export const useSlides = () => {
   };
 
   const updateSlideOrder = async (slide: Slide, updatedSlides: Slide[]) => {
-    await SlidesRepositery.updateOrder(slide);
+    send({
+      sendFunction: () => {
+        return SlidesRepositery.updateOrder(slide);
+      },
+      onSuccess: () => {
+        mutate();
+      },
+    });
 
     mutate(updatedSlides);
   };
+
+  const updateContent = async (slide: Slide) => {
+    send({
+      sendFunction: () => {
+        return SlidesRepositery.updateContent(slide);
+      },
+      onSuccess: () => {
+        mutate();
+      },
+    });
+  };
+
+  const updateQuestion = async (slide: Slide) => {
+    send({
+      sendFunction: () => {
+        return SlidesRepositery.updateQuestion(slide);
+      },
+      onSuccess: () => {
+        mutate();
+      },
+    });
+  };
+
+  const deleteSlide = async (slide: Slide) => {
+    send({
+      sendFunction: () => {
+        return SlidesRepositery.delete(slide);
+      },
+      onSuccess: () => {
+        mutate();
+        // change current slide to the next slide
+        if (slides !== undefined) {
+          const index = slides?.findIndex((s) => s.id === slide.id);
+          if (index !== undefined && index !== -1) {
+            const nextSlide = slides[index + 1];
+            changeCurrentSlide(nextSlide);
+          }
+
+          // if there is no next slide, change current slide to the previous slide
+          if (index === slides?.length - 1) {
+            const previousSlide = slides[index - 1];
+            changeCurrentSlide(previousSlide);
+          }
+        }
+
+        // if there is no slides, change current slide to undefined
+        if (slides?.length === 1) {
+          changeCurrentSlide(undefined);
+        }
+      },
+    });
+  };
+
   return {
     slides,
     error,
@@ -47,5 +109,8 @@ export const useSlides = () => {
     changeCurrentSlide,
     slideIsChanging,
     updateSlideOrder,
+    updateContent,
+    deleteSlide,
+    updateQuestion,
   };
 };

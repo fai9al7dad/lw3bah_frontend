@@ -4,15 +4,23 @@ import { SecondaryButton } from "./atoms";
 export default function Modal({
   trigger,
   children,
+  disableTrigger,
+  showOverlay = true,
+  onClick,
   title,
 }: {
   trigger: React.ReactNode;
+  disableTrigger?: boolean;
   children: React.ReactNode;
+  showOverlay?: boolean;
+  onClick?: () => void;
   title?: string;
 }) {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => {
+    if (onClick) onClick();
+    if (disableTrigger) return;
     setShowModal(!showModal);
   };
   return (
@@ -21,7 +29,7 @@ export default function Modal({
       <div onClick={toggleModal}>{trigger}</div>
       {/* overlay */}
 
-      {showModal == true && (
+      {showModal == true && showOverlay && (
         <div
           onClick={() => setShowModal(!showModal)}
           className="bg-neutral-900/40 w-screen h-screen z-50 fixed inset-0"

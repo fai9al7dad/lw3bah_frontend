@@ -1,3 +1,5 @@
+import { Answer } from "./answer";
+
 export class Slide {
   id?: number;
   lessonID?: number;
@@ -9,7 +11,7 @@ export class Slide {
   videoUrl?: string;
   question?: string;
   correctAnswer?: string;
-  answers?: string[];
+  answers?: Answer[];
 
   constructor({
     id,
@@ -34,7 +36,7 @@ export class Slide {
     videoUrl?: string;
     question?: string;
     correctAnswer?: string;
-    answers?: string[];
+    answers?: Answer[];
   } = {}) {
     this.id = id;
     this.lessonID = lessonID;
