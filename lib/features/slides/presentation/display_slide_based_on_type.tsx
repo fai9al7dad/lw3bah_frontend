@@ -10,7 +10,7 @@ export const DisplaySlideBasedOnType = ({ slide }: { slide?: Slide }) => {
   switch (slide.slideType) {
     case Slide.TEXT_CONTENT:
       return <TitleBodyContentForm slide={slide} />;
-    case Slide.IMAGE_CONTENT:
+    case Slide.MEDIA_CONTENT:
       return <MediaWithDescriptionForm slide={slide} />;
     case Slide.TRUE_FALSE_QUESTION:
       return <TrueFalseForm slide={slide} />;
@@ -18,6 +18,6 @@ export const DisplaySlideBasedOnType = ({ slide }: { slide?: Slide }) => {
       return <QuizForm slide={slide} />;
 
     default:
-      return <div>Not Found</div>;
+      return <div>قم بإختيار شريحة أو أنشئ للبدأ</div>;
   }
 };

@@ -4,6 +4,7 @@ import { api_routes } from "../../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../../common/hooks/use_submit";
 import { SlidesRepositery } from "../../../slides/data/repositeries/SlidesRepositery";
 import { LessonsRepositery } from "../../data/repositeries/lessons_repositery";
+import { Lesson } from "../entities/lesson";
 
 export const useLesson = () => {
   const router = useRouter();
@@ -40,5 +41,22 @@ export const useLesson = () => {
     });
   };
 
-  return { lesson, error, del, create, isValidating };
+  const updateLessonOrder = async ({
+    lesson,
+    reorderedItems,
+  }: {
+    lesson: Lesson;
+    reorderedItems: Lesson[];
+  }) => {
+    send({
+      sendFunction: () => {
+        return LessonsRepositery.updateLessonOrder(lesson);
+      },
+      onSuccess: () => {
+        // mutate(api_routes.get_sections + "/" + router.query.courseID);
+      },
+    });
+  };
+
+  return { lesson, error, del, create, isValidating, updateLessonOrder };
 };

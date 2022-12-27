@@ -175,9 +175,8 @@ const PopUp = ({
 }) => {
   return (
     <div
-      className={` fixed w-screen h-screen  bg-neutral-900/80 transition-all duration-150 z-50 ${
-        state[0] ? "opacity-1" : "opacity-0"
-      }`}
+      className="fixed w-screen h-screen  bg-neutral-900/80 transition-all duration-150 z-50
+      "
       onClick={() => state[1](false)}
     >
       <div

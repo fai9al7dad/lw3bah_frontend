@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment, use, useState } from "react";
 import { SecondaryButton } from "./atoms";
 
 export default function Modal({
@@ -7,21 +8,29 @@ export default function Modal({
   disableTrigger,
   showOverlay = true,
   onClick,
+  viewModal = false,
   title,
 }: {
-  trigger: React.ReactNode;
+  trigger?: React.ReactNode;
   disableTrigger?: boolean;
   children: React.ReactNode;
   showOverlay?: boolean;
   onClick?: () => void;
+  viewModal?: boolean;
+
   title?: string;
 }) {
   const [showModal, setShowModal] = useState(false);
+
+  React.useEffect(() => {
+    setShowModal(viewModal);
+  }, [viewModal]);
 
   const toggleModal = () => {
     if (onClick) onClick();
     if (disableTrigger) return;
     setShowModal(!showModal);
+    viewModal = !viewModal;
   };
   return (
     <>
@@ -29,49 +38,51 @@ export default function Modal({
       <div onClick={toggleModal}>{trigger}</div>
       {/* overlay */}
 
-      {showModal == true && showOverlay && (
-        <div
-          onClick={() => setShowModal(!showModal)}
-          className="bg-neutral-900/40 w-screen h-screen z-50 fixed inset-0"
-        />
-      )}
-      {showModal == true && (
-        <div
-          className={`relative z-50 ease-out duration-150 `}
-          aria-labelledby="modal-title"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="fixed inset-0 z-40 overflow-y-auto">
-            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-              <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-14 sm:py-9">
-                  <div className="flex items-center justify-between mb-5">
-                    {/* back button */}
-                    <SecondaryButton
-                      className="flex  text-primary-text "
-                      onClick={toggleModal}
-                    >
-                      عودة
-                    </SecondaryButton>
-                    {title && (
-                      <div className="text-center text-2xl font-bold">
-                        {title}
-                      </div>
-                    )}
-                    <div className="px-10"></div>
-                  </div>
-
-                  {/* pass setShowModal to children to close the modal */}
-                  {React.cloneElement(children as React.ReactElement, {
-                    setShowModal,
-                  })}
-                </div>
-              </div>
-            </div>
+      <Transition show={showModal} as={Fragment}>
+        <Dialog as="div" className="relative z-20" onClose={toggleModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-150"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div onClick={toggleModal} className="fixed inset-0 bg-black/30" />
+          </Transition.Child>
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-150"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="w-full max-w-sm rounded-lg bg-white px-5 z-50 py-4">
+                {/* back button */}
+                <SecondaryButton
+                  className="flex  text-primary-text text-sm
+                   mb-5"
+                  onClick={toggleModal}
+                >
+                  عودة
+                </SecondaryButton>
+                {title && (
+                  <div className="text-center text-2xl font-bold">{title}</div>
+                )}
+                <div className="px-10"></div>
+                {/* pass setShowModal to children to close the modal */}
+                {React.cloneElement(children as React.ReactElement, {
+                  setShowModal,
+                })}
+              </Dialog.Panel>
+            </Transition.Child>
           </div>
-        </div>
-      )}
+        </Dialog>
+      </Transition>
     </>
   );
 }

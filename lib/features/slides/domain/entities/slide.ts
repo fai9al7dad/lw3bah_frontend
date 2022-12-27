@@ -7,8 +7,8 @@ export class Slide {
   slideType?: string;
   title?: string;
   description?: string;
-  imageUrl?: string;
-  videoUrl?: string;
+  url?: string;
+  mediaType?: string;
   question?: string;
   correctAnswer?: string;
   answers?: Answer[];
@@ -20,10 +20,10 @@ export class Slide {
     slideType,
     title,
     description,
-    imageUrl,
-    videoUrl,
     question,
     correctAnswer,
+    url,
+    mediaType,
     answers,
   }: {
     id?: number;
@@ -32,8 +32,8 @@ export class Slide {
     slideType?: string;
     title?: string;
     description?: string;
-    imageUrl?: string;
-    videoUrl?: string;
+    url?: string;
+    mediaType?: string;
     question?: string;
     correctAnswer?: string;
     answers?: Answer[];
@@ -43,9 +43,9 @@ export class Slide {
     this.order = order;
     this.slideType = slideType;
     this.title = title;
+    this.url = url;
+    this.mediaType = mediaType;
     this.description = description;
-    this.imageUrl = imageUrl;
-    this.videoUrl = videoUrl;
     this.question = question;
     this.correctAnswer = correctAnswer;
     this.answers = answers;

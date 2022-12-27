@@ -25,8 +25,6 @@ export class SlidesRepositery {
         slideType: data.slide_type,
         title: data.title,
         description: data.description,
-        imageUrl: data.image_url,
-        videoUrl: data.video_url,
         question: data.question,
         correctAnswer: data.correct_answer,
       });
@@ -55,8 +53,6 @@ export class SlidesRepositery {
         slideType: data.slide_type,
         title: data.title,
         description: data.description,
-        imageUrl: data.image_url,
-        videoUrl: data.video_url,
         question: data.question,
         correctAnswer: data.correct_answer,
       });
@@ -72,6 +68,8 @@ export class SlidesRepositery {
         title: slide.title,
         body: slide.description,
         slide_type: Slide.api_slide_types.get(slide.slideType!),
+        media: slide.url,
+        media_type: slide.mediaType,
       });
 
       const data = res.data;
@@ -82,8 +80,6 @@ export class SlidesRepositery {
         slideType: data.slide_type,
         title: data.title,
         description: data.description,
-        imageUrl: data.image_url,
-        videoUrl: data.video_url,
         question: data.question,
         correctAnswer: data.correct_answer,
       });
@@ -113,8 +109,6 @@ export class SlidesRepositery {
         slideType: data.slide_type,
         title: data.title,
         description: data.description,
-        imageUrl: data.image_url,
-        videoUrl: data.video_url,
         question: data.question,
         correctAnswer: data.correct_answer,
       });
@@ -135,8 +129,6 @@ export class SlidesRepositery {
         slideType: data.slide_type,
         title: data.title,
         description: data.description,
-        imageUrl: data.image_url,
-        videoUrl: data.video_url,
         question: data.question,
         correctAnswer: data.correct_answer,
       });
@@ -162,6 +154,9 @@ export class SlidesRepositery {
           order: slide.order,
           title: slide.title,
           description: slide.body,
+          mediaType: slide.media != null ? slide.media[0].type : null,
+          url: slide.media != null ? slide.media[0].url : null,
+
           answers: slide.answers?.map((answer: any) => {
             return {
               body: answer.body,
@@ -224,8 +219,6 @@ export class SlidesRepositery {
         slideType: data.slide_type,
         title: data.title,
         description: data.description,
-        imageUrl: data.image_url,
-        videoUrl: data.video_url,
         question: data.question,
         correctAnswer: data.correct_answer,
       });

@@ -9,12 +9,15 @@ export const api_routes = {
   //sections
   get_sections: `${prefix}/teacher-view-sections`,
   create_section: `${prefix}/add-section-to-course`,
+  delete_section: `${prefix}/delete-section`,
+  update_section: `${prefix}/update-section-details`,
   // lessons
   create_lesson: `${prefix}/add-lesson-to-section`,
   update_lesson: `${prefix}/update-lesson-details`,
   delete_lesson: `${prefix}/delete-lesson`,
   get_lessons: `${prefix}/teacher-view-lessons`,
   get_lesson: `${prefix}/teacher-view-lesson-details`,
+  update_lesson_order: `${prefix}/update-lesson-order`,
   // slide
   get_slides: `${prefix}/teacher-view-slides`,
   get_slide: `${prefix}/teacher-view-slide-details`,

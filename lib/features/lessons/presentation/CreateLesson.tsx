@@ -12,9 +12,11 @@ import { useLesson } from "../domain/usecases/use_lesson";
 export default function CreateLesson({
   sectionID,
   setShowModal,
+  onSubmit,
 }: {
   setShowModal?: (bool: boolean) => {};
   sectionID: any;
+  onSubmit?: () => void;
 }) {
   const { send, loading } = useSubmit();
   const { create } = useLesson();
@@ -30,20 +32,20 @@ export default function CreateLesson({
     });
   };
 
-  const onSubmit = (e: any) => {
+  const handleSubmit = (e: any) => {
     setShowModal && setShowModal(false);
     if (loading) return;
     e.preventDefault();
-
     const payload = {
       ...formState,
       section_id: sectionID,
     };
     create({ payload });
+    onSubmit && onSubmit();
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit}>
       <TextInput
         name="title"
         value={formState.title}

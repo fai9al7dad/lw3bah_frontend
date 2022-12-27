@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import useSWR from "swr";
 import { api_routes } from "../../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../../common/hooks/use_submit";
@@ -41,16 +42,28 @@ export default function useSection() {
       },
     });
   };
-  const del = async () => {
+  const del = async ({ sectionID }: { sectionID?: string }) => {
+    if (!sectionID) return toast.error("هذا القسم غير موجود");
     send({
       sendFunction: () => {
-        return SectionsRepositery.delete(router.query.lessonID as string);
+        return SectionsRepositery.delete(sectionID);
       },
       onSuccess: () => {
-        router.replace(`/course/${router.query.courseID}`);
+        mutate();
       },
     });
   };
 
-  return { sections, error, isValidating, create, del };
+  const update = async ({ section }: { section: Section }) => {
+    send({
+      sendFunction: () => {
+        return SectionsRepositery.update(section);
+      },
+      onSuccess: () => {
+        mutate();
+      },
+    });
+  };
+
+  return { sections, error, isValidating, create, del, update };
 }

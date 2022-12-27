@@ -16,7 +16,7 @@ export default function AnimatedSidebar({
       {showSidebar == true && (
         <div
           onClick={() => setShowSidebar(!showSidebar)}
-          className="bg-neutral-900/40 w-screen h-screen fixed inset-0 "
+          className="bg-neutral-900/40 w-screen h-screen fixed inset-0 z-40 "
         />
       )}
       <div

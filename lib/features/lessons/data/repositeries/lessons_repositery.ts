@@ -62,4 +62,20 @@ export class LessonsRepositery {
     });
     return c;
   }
+
+  static async updateLessonOrder(lesson: Lesson): Promise<Lesson> {
+    const c: any = safeAxiosHandler(async () => {
+      const res = await axios.post(api_routes.update_lesson_order, {
+        lesson_id: lesson.id,
+        order: lesson.order,
+      });
+      const data = res.data;
+      return new Lesson({
+        id: data._id,
+        description: data.description,
+        sectionID: data.section_id,
+      });
+    });
+    return c;
+  }
 }

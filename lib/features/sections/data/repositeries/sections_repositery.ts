@@ -52,4 +52,36 @@ export class SectionsRepositery {
     });
     return sections;
   }
+
+  static async delete(sectionID: string): Promise<boolean> {
+    if (!sectionID) throw new Error("sectionID is required");
+    console.log({ sectionID });
+
+    const deleted: any = safeAxiosHandler(async () => {
+      const res = await axios.post(api_routes.delete_section, {
+        section_id: sectionID,
+      });
+      const data = res.data;
+      return data.deleted;
+    });
+    return deleted;
+  }
+
+  static async update(section: Section): Promise<Section> {
+    const updated: any = safeAxiosHandler(async () => {
+      const res = await axios.post(api_routes.update_section, {
+        section_id: section.id,
+        title: section.title,
+        description: "--",
+        order: section.order,
+      });
+      const data = res.data;
+      return new Section({
+        id: data.id,
+        title: data.title,
+        order: data.order,
+      });
+    });
+    return updated;
+  }
 }
