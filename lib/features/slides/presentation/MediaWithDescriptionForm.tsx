@@ -17,8 +17,6 @@ export default function MediaWithDescriptionForm({ slide }: { slide: Slide }) {
     url: "",
     mediaType: "",
   });
-  console.log(formState);
-
   // update form state on init
   React.useEffect(() => {
     setFormState({

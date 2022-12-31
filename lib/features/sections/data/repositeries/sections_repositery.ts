@@ -55,8 +55,6 @@ export class SectionsRepositery {
 
   static async delete(sectionID: string): Promise<boolean> {
     if (!sectionID) throw new Error("sectionID is required");
-    console.log({ sectionID });
-
     const deleted: any = safeAxiosHandler(async () => {
       const res = await axios.post(api_routes.delete_section, {
         section_id: sectionID,

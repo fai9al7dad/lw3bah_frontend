@@ -28,8 +28,6 @@ export default function index() {
   const {} = useAuth({
     middleware: "auth",
   });
-  console.log(currentSlide);
-
   // React.useEffect(() => {
   //   changeCurrentSlide(slides?.[0]);
   // }, []);

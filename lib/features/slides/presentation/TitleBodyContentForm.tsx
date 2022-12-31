@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import {
   PrimaryButton,
   TextAreaInput,
@@ -21,11 +22,16 @@ export default function TitleBodyContentForm({ slide }: { slide: Slide }) {
       description: slide.description !== undefined ? slide.description : "",
     });
   }, [slide]);
+
   const onChange = (event: any) => {
     setFormState({
       ...formState,
       [event.target.name]: event.target.value,
     });
+
+    if (event.target.value.length === 255) {
+      toast.warning("نقترح ان لا تزيد الحروف عن 255 حرف لتسهيل القراءة");
+    }
   };
   const onSubmit = (e: any) => {
     e.preventDefault();
