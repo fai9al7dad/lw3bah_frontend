@@ -36,16 +36,20 @@ export const useSlides = () => {
   };
 
   const updateSlideOrder = async (slide: Slide, updatedSlides: Slide[]) => {
+    mutate([...updatedSlides], {
+      revalidate: false,
+    });
+
     send({
       sendFunction: () => {
         return SlidesRepositery.updateOrder(slide);
       },
       onSuccess: () => {
-        mutate();
+        mutate([...updatedSlides], {
+          revalidate: true,
+        });
       },
     });
-
-    mutate(updatedSlides);
   };
 
   const updateContent = async (slide: Slide) => {

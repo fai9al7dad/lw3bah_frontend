@@ -23,7 +23,6 @@ export const ViewSlides = ({
     for (let i = 0; i < items.length; i++) {
       items[i].order = i + 1;
     }
-
     updateSlideOrder(reorderedItem, items);
   };
 
