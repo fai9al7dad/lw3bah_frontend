@@ -1,3 +1,4 @@
+import { pb } from "./../../../common/data/data_sources/pocketbase";
 import { api_routes } from "./../../../common/data/data_sources/api_routes";
 import { safeAxiosHandler } from "./../../../common/data/data_sources/axios";
 import axios from "../../../common/data/data_sources/axios";
@@ -57,16 +58,22 @@ export class CourseRepositery {
 
   static async getAll(): Promise<Course[]> {
     const courses: any = safeAxiosHandler(async () => {
-      const res = await axios.get(api_routes.get_all_courses);
-      const data = res.data;
+      // const res = await axios.get(api_routes.get_all_courses);
+      // const data = res.data;
 
-      return data.map((course: any) => {
+      const records = await pb
+        .collection("courses")
+        .getFullList(200 /* batch size */, {
+          sort: "-created",
+        });
+
+      return records.map((course: any) => {
         return new Course({
-          id: course._id,
-          title: course.title,
+          id: course.id,
+          title: course.name,
           description: course.description,
           topic: course.topic,
-          createdAt: course.created_at,
+          createdAt: course.created,
           tags: course.tags,
         });
       });

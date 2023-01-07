@@ -2,6 +2,7 @@ import { api_routes } from "../../../../common/data/data_sources/api_routes";
 import axios, {
   safeAxiosHandler,
 } from "../../../../common/data/data_sources/axios";
+import { pb } from "../../../../common/data/data_sources/pocketbase";
 import { Section } from "../../domain/entities/section";
 
 export class SectionsRepositery {
@@ -24,33 +25,40 @@ export class SectionsRepositery {
   static async get(courseID: string): Promise<Section[]> {
     if (!courseID) throw new Error("courseID is required");
 
-    const sections: any = safeAxiosHandler(async () => {
-      const res = await axios.get(api_routes.get_sections, {
-        params: {
-          course_id: courseID,
-        },
+    try {
+      const resultList = await pb.collection("sections").getFullList(20, {
+        filter: `course = "${courseID}"`,
+        expand: "lessons(section)",
       });
-      const data = res.data;
-      return data.sections.map((section: any) => {
+      console.log(resultList);
+
+      const sections: any = resultList.map((section: any) => {
         return new Section({
-          id: section._id,
+          id: section.id,
           title: section.title,
-          courseID: section.course_id,
+          courseID: section.course,
           order: section.order,
-          lessons: section.lessons.map((lesson: any) => {
-            return {
-              id: lesson._id,
-              title: lesson.title,
-              description: lesson.description,
-              sectionID: lesson.section_id,
-              order: lesson.order,
-              createdAt: lesson.created_at,
-            };
-          }),
+          lessons:
+            section.expand != null
+              ? section.expand["lessons(section)"].map((lesson: any) => {
+                  return {
+                    id: lesson.id,
+                    title: lesson.title,
+                    description: lesson.description,
+                    sectionID: lesson.section,
+                    order: lesson.order,
+                    createdAt: lesson.created,
+                  };
+                })
+              : [],
         });
       });
-    });
-    return sections;
+
+      return sections;
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
   }
 
   static async delete(sectionID: string): Promise<boolean> {

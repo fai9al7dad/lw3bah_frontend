@@ -14,7 +14,7 @@ export default function MainLayout({
       <div className="border-b border-netural-300 py-5 px-10 flex items-center justify-between">
         <div className="text-xl font-bold">
           مرحبا
-          <span className="mr-2">{user?.name} </span>
+          <span className="mr-2">{user?.record.name} </span>
         </div>
         <LogoutButton />
       </div>

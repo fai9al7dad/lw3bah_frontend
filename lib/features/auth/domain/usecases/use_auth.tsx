@@ -2,6 +2,7 @@ import useSWR from "swr";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "../../../../common/data/data_sources/axios";
+import { pb } from "../../../../common/data/data_sources/pocketbase";
 
 interface props {
   middleware?: string;
@@ -16,14 +17,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
     mutate,
   } = useSWR(
     "/api/user",
-    () =>
-      axios
-        .get("/api/user")
-        .then((res) => res.data)
-        .catch((error) => {
-          if (error.response.status !== 409) throw error;
-          router.push("/verify-email");
-        }),
+    async () => {
+      return await pb.collection("users").authRefresh();
+    },
     {
       revalidateOnFocus: false,
     }
@@ -61,19 +57,20 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
     setStatus: any;
     [x: string]: any;
   }) => {
-    await csrf();
+    const authData = await pb
+      .collection("users")
+      .authWithPassword(props.email, props.password);
 
-    setErrors([]);
-    setStatus(null);
-
-    axios
-      .post("/login", props)
-      .then(() => mutate())
-      .catch((error) => {
-        if (error.response.status !== 422) throw error;
-
-        setErrors(error.response.data.errors);
-      });
+    if (authData) {
+      mutate();
+      router.push("/");
+    } else {
+      setErrors([
+        {
+          message: "These credentials do not match our records.",
+        },
+      ]);
+    }
   };
 
   const forgotPassword = async ({
@@ -140,13 +137,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
     window.location.pathname = "/auth/login";
   };
 
-  useEffect(() => {
-    if (middleware === "guest" && redirectIfAuthenticated && user)
-      router.push(redirectIfAuthenticated);
-    if (window.location.pathname === "/verify-email" && user?.email_verified_at)
-      router.push(redirectIfAuthenticated);
-    if (middleware === "auth" && error) logout();
-  }, [user, error]);
+  // useEffect(() => {
+  //   if (middleware === "guest" && redirectIfAuthenticated && user)
+  //     router.push(redirectIfAuthenticated);
+  //   if (window.location.pathname === "/verify-email" && user?.email_verified_at)
+  //     router.push(redirectIfAuthenticated);
+  //   if (middleware === "auth" && error) logout();
+  // }, [user, error]);
 
   return {
     user,

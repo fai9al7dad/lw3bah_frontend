@@ -2,7 +2,7 @@ import Axios, { AxiosResponse } from "axios";
 import { Type } from "typescript";
 
 const axios = Axios.create({
-  baseURL: "https://haql-api.waqf-raqmy.com/lw3bah-api/",
+  baseURL: "http://127.0.0.1:8090/",
   headers: {
     "X-Requested-With": "XMLHttpRequest",
   },

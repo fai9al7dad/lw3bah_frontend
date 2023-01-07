@@ -80,8 +80,8 @@ export class Slide {
   ]);
 
   static api_to_slide_type = new Map([
-    ["text", Slide.TEXT_CONTENT],
-    ["trueFalse", Slide.TRUE_FALSE_QUESTION],
+    ["title_with_body_c", Slide.TEXT_CONTENT],
+    ["mc_q", Slide.TRUE_FALSE_QUESTION],
     ["multipleChoice", Slide.MULTIPLE_CHOICE_QUESTION],
     ["mediaAndText", Slide.MEDIA_CONTENT],
   ]);

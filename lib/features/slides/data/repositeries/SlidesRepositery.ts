@@ -1,3 +1,4 @@
+import { pb } from "./../../../../common/data/data_sources/pocketbase";
 import { Slide } from "../../domain/entities/slide";
 import { api_routes } from "./../../../../common/data/data_sources/api_routes";
 import axios, {
@@ -140,32 +141,26 @@ export class SlidesRepositery {
     if (!lessonID) throw new Error("lessonID is required");
 
     const c: any = safeAxiosHandler(async () => {
-      const res = await axios.get(api_routes.get_slides, {
-        params: {
-          lesson_id: lessonID,
-        },
+      const resultList = await pb.collection("slides").getList(1, 50, {
+        filter: `lesson = "${lessonID}"`,
       });
-      const data = res.data;
 
-      return data.map((slide: any) => {
+      return resultList.items.map((slide: any) => {
         return new Slide({
-          id: slide._id,
-          lessonID: slide.lesson_id,
+          id: slide.id,
+          lessonID: slide.lesson,
           order: slide.order,
           title: slide.title,
           description: slide.body,
-          mediaType: slide.media != null ? slide.media[0].type : null,
-          url: slide.media != null ? slide.media[0].url : null,
-
-          answers: slide.answers?.map((answer: any) => {
-            return {
-              body: answer.body,
-              isCorrect: answer.is_correct,
-            };
-          }),
-          slideType: Slide.api_to_slide_type.get(
-            slide.type === "question" ? slide.question_type : slide.content_type
-          ),
+          // mediaType: slide.media != null ? slide.media[0].type : null,
+          // url: slide.media != null ? slide.media[0].url : null,
+          // answers: slide.answers?.map((answer: any) => {
+          //   return {
+          //     body: answer.body,
+          //     isCorrect: answer.is_correct,
+          //   };
+          // }),
+          slideType: Slide.api_to_slide_type.get(slide.type),
         });
       });
     });
