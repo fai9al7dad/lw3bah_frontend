@@ -4,7 +4,7 @@ import { useAuth } from "../../../lib/features/auth/domain/usecases/use_auth";
 
 import ViewSections from "../../../lib/features/sections/presentation/ViewSections";
 
-export default function index() {
+export default function ViewCourseSections() {
   const {} = useAuth({
     middleware: "auth",
   });

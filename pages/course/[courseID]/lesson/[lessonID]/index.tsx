@@ -17,7 +17,7 @@ import { ViewSlides } from "../../../../../lib/features/slides/presentation/view
 import { Transition } from "@headlessui/react";
 import { DeleteSlide } from "../../../../../lib/features/slides/presentation/delete_slide";
 
-export default function index() {
+export default function ViewLesson() {
   const {
     slides,
     currentSlide,
