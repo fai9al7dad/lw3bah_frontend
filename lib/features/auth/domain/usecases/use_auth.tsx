@@ -107,7 +107,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: props) => {
   }: {
     setErrors: any;
     setStatus: any;
-    props: any;
+    [x: string]: any;
   }) => {
     await csrf();
 

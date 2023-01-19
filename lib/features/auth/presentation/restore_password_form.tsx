@@ -10,7 +10,7 @@ const PasswordReset = () => {
 
   const { resetPassword } = useAuth({ middleware: "guest" });
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<any>("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errors, setErrors] = useState<any>([]);
