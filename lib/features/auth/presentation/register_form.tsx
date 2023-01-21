@@ -12,7 +12,7 @@ import { useAuth } from "../domain/usecases/use_auth";
 export default function RegisterForm() {
   const { register } = useAuth({
     middleware: "guest",
-    redirectIfAuthenticated: "/",
+    redirectIfAuthenticated: "/creator",
   });
 
   const [formState, setFormState] = useState({

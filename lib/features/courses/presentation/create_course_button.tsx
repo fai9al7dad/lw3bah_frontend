@@ -5,7 +5,7 @@ import { BeakerIcon } from "../../../common/components/SvgIcons";
 
 export default function CreataCourseButton() {
   return (
-    <Link href="/course/create">
+    <Link href="/creator/course/create">
       <NavigationButton className="px-28 py-5">
         <div className="bg-amber-400 w-32 h-32 rounded-full flex items-center justify-center ">
           <BeakerIcon className="text-amber-700 w-20 h-20 " />

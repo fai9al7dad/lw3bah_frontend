@@ -10,7 +10,7 @@ export default function ViewCoursesButton({
 }) {
   return (
     <div className={className}>
-      <Link href="/courses">
+      <Link href="/creator/courses">
         <NavigationButton className="px-28 py-5">
           <div className="bg-amber-400 w-32 h-32 rounded-full flex items-center justify-center ">
             <AcademicCapIcon className="text-amber-700 w-20 h-20 " />

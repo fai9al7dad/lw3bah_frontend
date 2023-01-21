@@ -48,7 +48,7 @@ export default function CourseLayout({
         </AnimatedSidebar>
         {course && <div className="text-2xl font-bold">{course?.title}</div>}
         <NavigationButton
-          onClick={() => router.push("/courses")}
+          onClick={() => router.push("/creator/courses")}
           className="px-10"
         >
           دوراتي

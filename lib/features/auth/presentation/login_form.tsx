@@ -10,7 +10,7 @@ export default function LoginForm() {
   const router = useRouter();
   const { login } = useAuth({
     middleware: "guest",
-    redirectIfAuthenticated: "/",
+    redirectIfAuthenticated: "/creator/",
   });
   const [status, setStatus] = useState(null);
 

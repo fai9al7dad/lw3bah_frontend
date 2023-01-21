@@ -66,7 +66,9 @@ export default function LessonLayout({
         <div className="flex">
           <SecondaryButton
             className="text-sm ml-2"
-            onClick={() => router.push(`/course/${router.query.courseID}`)}
+            onClick={() =>
+              router.push(`/creator/course/${router.query.courseID}`)
+            }
           >
             عودة
           </SecondaryButton>

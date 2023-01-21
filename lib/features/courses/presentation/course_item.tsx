@@ -11,7 +11,7 @@ export default function CourseItem({
   className?: string;
 }) {
   return (
-    <Link href={`/course/${course.id}`}>
+    <Link href={`/creator/course/${course.id}`}>
       <NavigationButton
         className={`text-sm px-5 flex flex-col  text-right ${className}`}
       >

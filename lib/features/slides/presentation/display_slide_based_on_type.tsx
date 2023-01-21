@@ -6,6 +6,7 @@ import TitleBodyContentForm from "./TitleBodyContentForm";
 
 export const DisplaySlideBasedOnType = ({ slide }: { slide?: Slide }) => {
   if (!slide) return <div>Not slide</div>;
+  console.log({ slide });
 
   switch (slide.slideType) {
     case Slide.TEXT_CONTENT:

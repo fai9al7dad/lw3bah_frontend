@@ -154,8 +154,18 @@ export class SlidesRepositery {
           order: slide.order,
           title: slide.title,
           description: slide.body,
-          mediaType: slide.media != null ? slide.media[0].type : null,
-          url: slide.media != null ? slide.media[0].url : null,
+          mediaType:
+            slide.media != null
+              ? slide.media.length > 0
+                ? slide.media[0].type
+                : null
+              : null,
+          url:
+            slide.media != null
+              ? slide.media.length > 0
+                ? slide.media[0].url
+                : null
+              : null,
 
           answers: slide.answers?.map((answer: any) => {
             return {

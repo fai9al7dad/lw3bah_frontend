@@ -47,7 +47,7 @@ export default function ViewSectionLessons({ lessons }: { lessons: Lesson[] }) {
                     >
                       <Link
                         key={lesson.id}
-                        href={`/course/${router.query.courseID}/lesson/${lesson.id}`}
+                        href={`/creator/course/${router.query.courseID}/lesson/${lesson.id}`}
                       >
                         <NavigationButton className="mt-2">
                           <ViewLesson key={lesson.id} lesson={lesson} />

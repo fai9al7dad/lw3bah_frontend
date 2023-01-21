@@ -38,7 +38,7 @@ export default function useCourse() {
         });
       },
       onSuccess: (res) => {
-        router.push("/course/" + res.id);
+        router.push("/creator/course/" + res.id);
       },
     });
   };

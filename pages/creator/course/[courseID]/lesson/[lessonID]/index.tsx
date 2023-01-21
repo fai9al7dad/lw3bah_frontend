@@ -5,17 +5,17 @@ import {
   SecondaryButton,
   TextInput,
   Wrapper,
-} from "../../../../../lib/common/components/atoms";
-import LoadingSpinner from "../../../../../lib/common/components/atoms/loading_spinner";
-import LessonLayout from "../../../../../lib/common/components/layouts/LessonLayout";
-import Modal from "../../../../../lib/common/components/modal";
-import { useAuth } from "../../../../../lib/features/auth/domain/usecases/use_auth";
-import { Slide } from "../../../../../lib/features/slides/domain/entities/slide";
-import { useSlides } from "../../../../../lib/features/slides/domain/usecases/use_slides";
-import { DisplaySlideBasedOnType } from "../../../../../lib/features/slides/presentation/display_slide_based_on_type";
-import { ViewSlides } from "../../../../../lib/features/slides/presentation/view_slides";
+} from "../../../../../../lib/common/components/atoms";
+import LoadingSpinner from "../../../../../../lib/common/components/atoms/loading_spinner";
+import LessonLayout from "../../../../../../lib/common/components/layouts/LessonLayout";
+import Modal from "../../../../../../lib/common/components/modal";
+import { useAuth } from "../../../../../../lib/features/auth/domain/usecases/use_auth";
+import { Slide } from "../../../../../../lib/features/slides/domain/entities/slide";
+import { useSlides } from "../../../../../../lib/features/slides/domain/usecases/use_slides";
+import { DisplaySlideBasedOnType } from "../../../../../../lib/features/slides/presentation/display_slide_based_on_type";
+import { ViewSlides } from "../../../../../../lib/features/slides/presentation/view_slides";
 import { Transition } from "@headlessui/react";
-import { DeleteSlide } from "../../../../../lib/features/slides/presentation/delete_slide";
+import { DeleteSlide } from "../../../../../../lib/features/slides/presentation/delete_slide";
 
 export default function ViewLesson() {
   const {

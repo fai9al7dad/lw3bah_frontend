@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
-import { SecondaryButton, Wrapper } from "../../lib/common/components/atoms";
-import MainLayout from "../../lib/common/components/layouts/main_layout";
-import { useAuth } from "../../lib/features/auth/domain/usecases/use_auth";
-import CreateCourse from "../../lib/features/courses/presentation/CreateCourse";
+import { SecondaryButton, Wrapper } from "../../../lib/common/components/atoms";
+import MainLayout from "../../../lib/common/components/layouts/main_layout";
+import { useAuth } from "../../../lib/features/auth/domain/usecases/use_auth";
+import CreateCourse from "../../../lib/features/courses/presentation/CreateCourse";
 
 export default function Home() {
   const {} = useAuth({
@@ -20,7 +20,7 @@ export default function Home() {
         <div className="w-1/4">
           <div>
             <div className="flex ">
-              <Link href="/">
+              <Link href="/creator">
                 <SecondaryButton className="mb-5">عودة</SecondaryButton>
               </Link>
             </div>
