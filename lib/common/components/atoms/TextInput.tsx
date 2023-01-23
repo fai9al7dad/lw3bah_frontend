@@ -12,7 +12,7 @@ export function TextInput({
   className?: string;
   required?: boolean;
   label?: string;
-  type: string;
+  type?: string;
   [key: string]: any;
 }) {
   return (
