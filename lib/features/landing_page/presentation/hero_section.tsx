@@ -28,27 +28,30 @@ export default function HeroSection() {
       <div className="absolute top-0 left-0 opacity-5">
         <img src="/landing_page/trophy.png" className="w-32" />
       </div>
-      <div className="absolute bottom-44 right-0 opacity-20">
-        <img src="/landing_page/xpshow.png" className="w-72 z-0" />
-      </div>
+
       <div className=" py-10 ">
         <div className=" px-10 flex items-center justify-center mb-5">
           <AppLogo />
         </div>
-        <div className="flex flex-col items-center justify-center h-full px-10 ">
+        <div className="flex flex-col items-center justify-center h-full md:px-10 ">
           <img src="/landing_page/headline.png" className="w-[500px]" />
 
-          <div className="bg-gray-200 z-10  rounded-2xl w-full px-10 py-10 shadow-lg">
-            <div className="grid grid-cols-3 gap-5">
+          <div className="bg-gray-200 z-10  rounded-2xl w-full px-10 py-10 shadow-lg md:w-3/4 lg:w-2/4 relative ">
+            <div className="absolute top-[-130px] right-0 -z-40 opacity-20">
+              <img src="/landing_page/xpshow.png" className="w-72 " />
+            </div>
+            <div className="grid grid-cols-3 gap-5 z-10">
               <div className="col-span-2">
                 <TextInput
                   placeholder="أدخل بريدك الإلكتروني"
                   label="اشترك في قائمتنا البريدية"
                   name="email"
+                  autoComplete="off"
+                  type="email"
                   value={formState.email}
                   onChange={onChange}
                   className="w-full border-2 border-gray-400 p-5 "
-                  required={false}
+                  required={true}
                 />
               </div>
               <div className="col-span-1">
