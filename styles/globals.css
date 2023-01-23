@@ -11,6 +11,11 @@
   }
 }
 
+@font-face {
+  font-family: "raqami";
+  src: local("Raqami"), url(../assets/fonts/Raqami.ttf) format("ttf");
+}
+
 body {
   direction: rtl;
 }

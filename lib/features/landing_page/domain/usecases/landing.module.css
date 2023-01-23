@@ -1,0 +1,19 @@
+.title {
+  font-family: "raqami", sans-serif;
+  text-shadow: 0px 10px #000;
+  -webkit-text-stroke: 4px black;
+  letter-spacing: 0px;
+}
+
+.raqami {
+  font-family: "raqami";
+}
+.subtitle2 {
+  font-family: "raqami", sans-serif;
+  /* -webkit-text-stroke: 1.5px black; */
+}
+
+.subtitle1 {
+  font-family: "raqami", sans-serif;
+  /* -webkit-text-stroke: 3px black; */
+}
