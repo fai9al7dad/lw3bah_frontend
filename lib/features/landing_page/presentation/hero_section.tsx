@@ -18,9 +18,14 @@ export default function HeroSection() {
   };
   const submitForm = (event: any) => {
     event.preventDefault();
+
     subscribe({
       email: formState.email,
       type: formState.type,
+    });
+    setFormState({
+      email: "",
+      type: "teacher",
     });
   };
   return (
