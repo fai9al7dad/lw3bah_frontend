@@ -31,6 +31,9 @@ export default function HeroSection() {
       <div className="absolute top-0 right-0 ">
         <img src="/landing_page/appstorebarcode.png" className="w-32" />
       </div>
+      <div className="absolute bottom-44 right-0  opacity-20">
+        <img src="/landing_page/xpshow.png" className="w-72 " />
+      </div>
 
       <div className=" py-10 ">
         <div className=" px-10 flex items-center justify-center mb-5">
@@ -40,9 +43,6 @@ export default function HeroSection() {
           <img src="/landing_page/headline.png" className="w-[500px]" />
 
           <div className="bg-gray-200 z-10  rounded-2xl w-full px-10 py-10 shadow-lg md:w-3/4 lg:w-2/4 relative ">
-            <div className="absolute top-[-130px] right-0 -z-40 opacity-20">
-              <img src="/landing_page/xpshow.png" className="w-72 " />
-            </div>
             <div className="grid grid-cols-3 gap-5 z-10">
               <div className="col-span-2">
                 <TextInput
