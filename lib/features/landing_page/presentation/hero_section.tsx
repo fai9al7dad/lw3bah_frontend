@@ -28,6 +28,9 @@ export default function HeroSection() {
       <div className="absolute top-0 left-0 opacity-5">
         <img src="/landing_page/trophy.png" className="w-32" />
       </div>
+      <div className="absolute top-0 right-0 ">
+        <img src="/landing_page/appstorebarcode.png" className="w-32" />
+      </div>
 
       <div className=" py-10 ">
         <div className=" px-10 flex items-center justify-center mb-5">
