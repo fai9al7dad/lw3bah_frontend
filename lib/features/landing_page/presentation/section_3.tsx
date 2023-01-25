@@ -15,13 +15,13 @@ export const Section3 = () => {
             </div>
             <div className="flex  justify-between ">
               <div
-                className={`  text-lg ${styles.raqami} text-center mt-5  pl-10 w-3/4`}
+                className={`text-md  md:text-lg ${styles.raqami} text-center mt-5  pl-10 w-3/4`}
               >
                 منصة لمقدمي المحتوى تمكنهم من تصميم المحتوى التعليمي وفق التلعيب
                 (Gamification) واتاحته لطلابهم
               </div>
               <div
-                className={` text-lg pr-10 text-center ${styles.raqami} mt-5 w-3/4`}
+                className={`text-md  md:text-lg pr-10 text-center ${styles.raqami} mt-5 w-3/4`}
               >
                 تطبيق يتيح المحتوى التعليمي الذي صممه المعلمون شبكة علاقات
                 اجتماعية تنافسية

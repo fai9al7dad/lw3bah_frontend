@@ -5,6 +5,7 @@ export function Section2SVG() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
+      className="w-[400px]  md:w-[663px] md:h-[250px]"
       width="663"
       height="250"
       fill="none"
@@ -257,8 +258,7 @@ export function Section3SVG() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      width="519"
-      height="176"
+      className="w-[400px] md:w-[519px]"
       fill="none"
       viewBox="0 0 519 176"
     >
