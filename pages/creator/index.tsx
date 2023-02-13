@@ -13,6 +13,7 @@ export default function IndexPage() {
       <div className="min-h-[85vh] flex items-center justify-center">
         <ViewCoursesButton className="ml-10" />
         <CreataCourseButton />
+        
       </div>
     </MainLayout>
   );

@@ -13,18 +13,22 @@ export const Section3 = () => {
             <div className="relative  flex flex-col items-center">
               <Section3SVG />
             </div>
-            <div className="flex  justify-between ">
+            <div className="flex  justify-between px-5">
               <div
-                className={`text-md  md:text-lg ${styles.raqami} text-center mt-5  pl-10 w-3/4`}
+                className={`text-md  md:text-lg ${styles.raqami} text-right mt-5  pl-10 w-3/4`}
               >
-                منصة لمقدمي المحتوى تمكنهم من تصميم المحتوى التعليمي وفق التلعيب
-                (Gamification) واتاحته لطلابهم
+                منصة لمقدمي المحتوى تمكنهم من تصميم المحتوى التعليمي وفق  منهجيات التلعيب (Gamification) والتجزيء (Microlearning) واتاحته لطلابهم
+               
               </div>
               <div
-                className={`text-md  md:text-lg pr-10 text-center ${styles.raqami} mt-5 w-3/4`}
+                className={`text-md  md:text-lg pr-10 text-right ${styles.raqami} mt-5 w-3/4`}
               >
-                تطبيق يتيح المحتوى التعليمي الذي صممه المعلمون شبكة علاقات
-                اجتماعية تنافسية
+                <ul className="list-disc">
+                  <li className={`${styles.raqami}`}>تطبيق يتيح المحتوى التعليمي الذي صممه المعلمون </li>
+                  <li className={`${styles.raqami}`}>شبكة علاقات اجتماعية تنافسية</li>
+                </ul>
+                
+                
               </div>
             </div>
           </div>

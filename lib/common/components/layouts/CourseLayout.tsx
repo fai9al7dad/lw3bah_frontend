@@ -55,8 +55,8 @@ export default function CourseLayout({
         </NavigationButton>
       </div>
 
-      <div className="flex items-center justify-center min-h-[88vh] py-20">
-        <div className="w-2/5 ">{children}</div>
+      <div className="flex justify-center  py-20">
+        <div className="lg:w-2/6 ">{children}</div>
       </div>
     </div>
   );
