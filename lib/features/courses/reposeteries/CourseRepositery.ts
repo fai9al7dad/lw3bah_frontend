@@ -2,6 +2,7 @@ import { api_routes } from "./../../../common/data/data_sources/api_routes";
 import { safeAxiosHandler } from "./../../../common/data/data_sources/axios";
 import axios from "../../../common/data/data_sources/axios";
 import { Course } from "../domain/entities/course";
+import { setTimeout } from "timers/promises";
 
 export class CourseRepositery {
   static async create(course: Course): Promise<Course> {
@@ -94,4 +95,6 @@ export class CourseRepositery {
     });
     return course;
   }
+
+  static async getStatistics(): Promise<any> {}
 }

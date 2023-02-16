@@ -57,6 +57,7 @@ export class Slide {
   static MEDIA_CONTENT = "media_content";
   static TRUE_FALSE_QUESTION = "true_false_question";
   static MULTIPLE_CHOICE_QUESTION = "multiple_choice_question";
+  static GIF_SEPARATOR = "gif_separator";
   // get all slide types
   getSlideTypes(): string[] {
     return [
@@ -101,11 +102,27 @@ export class Slide {
         return "محتوى فيديو";
       case Slide.IMAGE_CONTENT:
         return "محتوى صورة";
+      case Slide.GIF_SEPARATOR:
+        return "فاصل صورة متحركة";
+
       default:
         return "";
     }
   }
 
+  // get content slides only
+  static getContentSlides(): string[] {
+    return [Slide.TEXT_CONTENT, Slide.MEDIA_CONTENT];
+  }
+
+  // get question slides only
+  static getQuestionSlides(): string[] {
+    return [Slide.TRUE_FALSE_QUESTION, Slide.MULTIPLE_CHOICE_QUESTION];
+  }
+
+  static getSeparatorSlides(): string[] {
+    return [Slide.GIF_SEPARATOR];
+  }
   // convert api slide type to slide type
   // static convertApiSlideTypeToSlideType(apiSlideType: string): string {
   //   switch (apiSlideType) {

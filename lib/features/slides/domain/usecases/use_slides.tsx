@@ -104,6 +104,35 @@ export const useSlides = () => {
     });
   };
 
+  const addSlide = async (type: string) => {
+    const apiType = Slide.api_slide_types.get(type) as string;
+
+    if (type === Slide.MEDIA_CONTENT || type === Slide.TEXT_CONTENT) {
+      send({
+        sendFunction: () => {
+          return SlidesRepositery.createContent({
+            lessonID: router.query.lessonID as string,
+            type: apiType,
+          });
+        },
+        onSuccess: (data) => {
+          mutate();
+        },
+      });
+    } else {
+      send({
+        sendFunction: () => {
+          return SlidesRepositery.createQuestion({
+            lessonID: router.query.lessonID as string,
+            type: apiType,
+          });
+        },
+        onSuccess: (data) => {
+          mutate();
+        },
+      });
+    }
+  };
   return {
     slides,
     error,
@@ -116,5 +145,6 @@ export const useSlides = () => {
     updateContent,
     deleteSlide,
     updateQuestion,
+    addSlide,
   };
 };

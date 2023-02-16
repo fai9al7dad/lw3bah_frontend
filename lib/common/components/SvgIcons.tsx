@@ -50,3 +50,34 @@ export function BeakerIcon({ className }: common) {
     </svg>
   );
 }
+
+export const ImgPlaceholder = ({
+  className,
+  animateChild,
+}: {
+  className?: string;
+  animateChild?: boolean;
+}) => {
+  return (
+    <svg
+      className={`w-6 h-6 ${className}`}
+      viewBox="0 0 181 80"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M129.072 28.1185L175.873 74.8777C177.764 76.7672 176.426 80 173.753 80H72.9028H19.1995C20.0292 80 20.8218 79.6564 21.389 79.0509L60.7292 37.0519C61.8877 35.815 63.8401 35.7827 65.039 36.9805L90.5 62.4186L124.831 28.1185C126.002 26.9482 127.9 26.9482 129.072 28.1185Z"
+        fill="#FACC15"
+      />
+
+      <rect
+        x="35"
+        width="21"
+        height="21"
+        rx="10.5"
+        fill="#FACC15"
+        className={animateChild ? "animate-bounce" : ""}
+      />
+    </svg>
+  );
+};
