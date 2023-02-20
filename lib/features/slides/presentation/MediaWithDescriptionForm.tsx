@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import {
   PrimaryButton,
@@ -7,55 +7,52 @@ import {
 } from "../../../common/components/atoms";
 import { SelectInput } from "../../../common/components/atoms/select_input";
 import { mediaTypes } from "../../../common/data/data_sources/media_types";
+import { LessonContext } from "../../lessons/domain/usecases/lesson_context";
 import { Slide } from "../domain/entities/slide";
 import { useSlides } from "../domain/usecases/use_slides";
 
-export default function MediaWithDescriptionForm({ slide }: { slide: Slide }) {
+export default function MediaWithDescriptionForm() {
   const { updateContent } = useSlides();
-  const [formState, setFormState] = React.useState({
-    description: "",
-    url: "",
-    mediaType: "",
-  });
-  // update form state on init
-  React.useEffect(() => {
-    setFormState({
-      description:
-        slide.description !== undefined && slide.description !== null
-          ? slide.description
-          : "",
-      url: slide.url !== undefined ? slide.url : "",
-      mediaType: slide.mediaType !== undefined ? slide.mediaType : "",
-    });
-  }, [slide]);
+  const { slidesState, currentSlideIndex, setSlidesState } =
+    useContext(LessonContext);
 
   const onChange = (event: any) => {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value,
-    });
+    setSlidesState(
+      slidesState.map((slide, index) => {
+        if (index === currentSlideIndex) {
+          return {
+            ...slide,
+            [event.target.name]: event.target.value,
+          };
+        }
+        return slide;
+      })
+    );
   };
   const onSubmit = (e: any) => {
     e.preventDefault();
-    if (formState.mediaType === "video" && !formState.url.includes("youtube")) {
+    if (
+      slidesState[currentSlideIndex].mediaType === "video" &&
+      !slidesState[currentSlideIndex].url.includes("youtube")
+    ) {
       return toast.error("حاليا روابط اليوتيوب فقط المدعومة");
     }
     // if mediatype is image and url is not an jpeg or jpg or png
     if (
-      formState.mediaType === "image" &&
-      !formState.url.includes("jpeg" || "jpg" || "png")
+      slidesState[currentSlideIndex].mediaType === "image" &&
+      !slidesState[currentSlideIndex].url.includes("jpeg" || "jpg" || "png")
     ) {
       return toast.error("صيغة الصورة غير مدعومة");
     }
 
     updateContent(
       new Slide({
-        id: slide?.id,
-        order: slide?.order,
-        slideType: slide?.slideType,
-        description: formState.description,
-        url: formState.url,
-        mediaType: formState.mediaType,
+        id: slidesState[currentSlideIndex]?.id,
+        order: slidesState[currentSlideIndex]?.order,
+        slideType: slidesState[currentSlideIndex]?.slideType,
+        description: slidesState[currentSlideIndex].description,
+        url: slidesState[currentSlideIndex].url,
+        mediaType: slidesState[currentSlideIndex].mediaType,
       })
     );
   };
@@ -64,20 +61,15 @@ export default function MediaWithDescriptionForm({ slide }: { slide: Slide }) {
       <TextInput
         onChange={onChange}
         name="url"
-        value={formState.url}
+        value={slidesState[currentSlideIndex].url}
         label="رابط المحتوى"
         className="mb-5"
       />
       <select
-        onChange={(e: any) => {
-          setFormState({
-            ...formState,
-            mediaType: e.target.value,
-          });
-        }}
+        onChange={onChange}
         required={true}
         name="mediaType"
-        value={formState.mediaType}
+        value={slidesState[currentSlideIndex].mediaType}
         className="inline-block w-full focus:outline-none bg-white border-2 py-2 px-5 border-neutral-200 rounded-lg"
       >
         <option value="video">فيديو</option>
@@ -85,7 +77,7 @@ export default function MediaWithDescriptionForm({ slide }: { slide: Slide }) {
       </select>
 
       <div className="text-xs mt-2 mb-5">
-        {formState.mediaType === "video"
+        {slidesState[currentSlideIndex].mediaType === "video"
           ? "حاليا روابط اليوتيوب فقط المدعومة "
           : null}
       </div>
@@ -93,7 +85,7 @@ export default function MediaWithDescriptionForm({ slide }: { slide: Slide }) {
       <TextAreaInput
         onChange={onChange}
         name="description"
-        value={formState.description}
+        value={slidesState[currentSlideIndex].description}
         rows={10}
         label="وصف"
         className="mb-5"

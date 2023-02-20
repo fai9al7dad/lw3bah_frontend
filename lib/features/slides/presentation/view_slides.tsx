@@ -2,16 +2,11 @@ import React from "react";
 import { NavigationButton } from "../../../common/components/atoms";
 import { Slide } from "../domain/entities/slide";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { LessonContext } from "../../lessons/domain/usecases/lesson_context";
 
-export const ViewSlides = ({
-  slides,
-  currentSlide,
-  changeCurrentSlide,
-  updateSlideOrder,
-}: {
-  slides?: Slide[];
-  [x: string]: any;
-}) => {
+export const ViewSlides = () => {
+  const { slides, updateSlideOrder, changeCurrentSlide, currentSlideIndex } =
+    React.useContext(LessonContext);
   if (slides?.length === 0) return <div>There are no slides</div>;
 
   const handleOnDragEnd = (result: any) => {
@@ -46,9 +41,9 @@ export const ViewSlides = ({
                     >
                       <NavigationButton
                         // key={i}
-                        onClick={() => changeCurrentSlide(slide)}
+                        onClick={() => changeCurrentSlide(i)}
                         className={`w-full mb-2  px-5 flex text-xs  text-right font-normal xl:text-base justify-start ${
-                          currentSlide?.id == slide.id
+                          currentSlideIndex == i
                             ? "bg-neutral-300 shadow-secondary-button border-neutral-300 max-w-full"
                             : " "
                         }`}

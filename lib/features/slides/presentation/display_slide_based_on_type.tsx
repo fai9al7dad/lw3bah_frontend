@@ -1,22 +1,25 @@
+import { useContext } from "react";
+import { Lesson } from "../../lessons/domain/entities/lesson";
+import { LessonContext } from "../../lessons/domain/usecases/lesson_context";
 import QuizForm from "../../questions/presentation/QuizForm";
 import TrueFalseForm from "../../questions/presentation/TrueFalseForm";
 import { Slide } from "../domain/entities/slide";
 import MediaWithDescriptionForm from "./MediaWithDescriptionForm";
 import TitleBodyContentForm from "./TitleBodyContentForm";
 
-export const DisplaySlideBasedOnType = ({ slide }: { slide?: Slide }) => {
-  if (!slide) return <div>Not slide</div>;
-  console.log({ slide });
-
-  switch (slide.slideType) {
+export const DisplaySlideBasedOnType = () => {
+  const { currentSlideIndex, slides } = useContext(LessonContext);
+  if (!slides) return <div>Not slide</div>;
+  if (!slides[currentSlideIndex]) return <div>Not slide</div>;
+  switch (slides[currentSlideIndex].slideType) {
     case Slide.TEXT_CONTENT:
-      return <TitleBodyContentForm slide={slide} />;
+      return <TitleBodyContentForm />;
     case Slide.MEDIA_CONTENT:
-      return <MediaWithDescriptionForm slide={slide} />;
+      return <MediaWithDescriptionForm />;
     case Slide.TRUE_FALSE_QUESTION:
-      return <TrueFalseForm slide={slide} />;
+      return <TrueFalseForm />;
     case Slide.MULTIPLE_CHOICE_QUESTION:
-      return <QuizForm slide={slide} />;
+      return <QuizForm />;
 
     default:
       return <div>قم بإختيار شريحة أو أنشئ للبدأ</div>;

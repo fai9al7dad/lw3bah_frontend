@@ -11,7 +11,9 @@ export const tabs = [
   "محتوى",
   "أسئلة",
   <div className="flex items-center justify-center ">
-    <div>فواصل</div>
+    <div>
+      فواصل <span className="text-xs">(s)</span>
+    </div>
     <HoverToolTip content="فواصل تعرض بشكل ملفت وسط الشرائح  ">
       <div className="bg-gray-100 rounded-full h-4 w-4 text-xs  mr-1">؟</div>
     </HoverToolTip>

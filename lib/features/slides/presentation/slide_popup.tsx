@@ -1,4 +1,5 @@
 import React from "react";
+import useKeyboardShortcut from "../../../common/hooks/use_keyboard_shortcut";
 import { tabs } from "../domain/entities/tabs_mappings";
 
 export const PopUp = ({
@@ -11,14 +12,41 @@ export const PopUp = ({
   children: (active: number) => React.ReactNode;
 }) => {
   const [active, setActive] = React.useState(0);
+  const {} = useKeyboardShortcut(["Escape"], (shortcutKeys) => togglePopup(), {
+    overrideSystem: false,
+    ignoreInputFields: false,
+    repeatOnHold: false,
+  });
+
+  const {} = useKeyboardShortcut(
+    ["c", "q", "s"],
+    (key) => {
+      switch (key) {
+        case "c":
+          setActive(0);
+          break;
+        case "q":
+          setActive(1);
+          break;
+        case "s":
+          setActive(2);
+          break;
+      }
+    },
+    {
+      overrideSystem: false,
+      ignoreInputFields: false,
+      repeatOnHold: false,
+      isCombination: false,
+    }
+  );
 
   const toggleActive = (index: number) => {
     setActive(index);
   };
 
-  const tabWidth = 80;
-  const activeTransition = `-translate-x-[${active * tabWidth}px]`;
-  const widthTab = `w-[${tabWidth}px]`;
+  const tabWidth = 90;
+  const activeTransition = `-translate-x-[${active * tabWidth + "px"}]`;
   return (
     <>
       <div
@@ -31,17 +59,24 @@ export const PopUp = ({
       >
         <div className="bg-gray-200 px-5  py-2 w-full rounded-t-2xl flex items-center">
           <div
-            className={`bg-white shadow  ${widthTab} h-10 absolute rounded-lg transition duration-150 ease-out
-            ${activeTransition}
+            className={`
+            ${activeTransition != null ? activeTransition : ""}
+              
+              bg-white shadow w-[90px] h-10 absolute rounded-lg transition duration-150 ease-out
           `}
           />
           {tabs.map((tab, index) => (
             <div
               key={index}
-              className={`text-gray-900 ${widthTab} text-center  py-2  rounded-lg z-10 cursor-pointer`}
+              className={`text-gray-900 w-[90px] text-center  py-2  rounded-lg z-10 cursor-pointer `}
               onClick={() => toggleActive(index)}
             >
               {tab}
+              {index == 0 ? (
+                <span className="text-xs mr-1">(c)</span>
+              ) : index == 1 ? (
+                <span className="text-xs mr-1">(q)</span>
+              ) : null}
             </div>
           ))}
         </div>

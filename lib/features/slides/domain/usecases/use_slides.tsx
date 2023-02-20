@@ -8,10 +8,10 @@ import { Slide } from "../entities/slide";
 
 export const useSlides = () => {
   const router = useRouter();
-  const [currentSlide, setCurrentSlide] = React.useState<Slide | undefined>(
-    new Slide()
-  );
+  const [currentSlideIndex, setCurrentSlideIndex] = React.useState<number>(0);
   const [slideIsChanging, setSlideIsChanging] = React.useState<boolean>(false);
+
+  const [slidesState, setSlidesState] = React.useState<Slide[]>([]);
 
   const {
     data: slides,
@@ -23,14 +23,17 @@ export const useSlides = () => {
     () => SlidesRepositery.getAll(router.query.lessonID as string),
 
     {
+      onSuccess: (data) => {
+        setSlidesState(data);
+      },
       revalidateOnFocus: false,
     }
   );
 
   const { send } = useSubmit();
-  const changeCurrentSlide = async (slide?: Slide) => {
+  const changeCurrentSlide = async (index?: number) => {
     setSlideIsChanging(true);
-    setCurrentSlide(slide);
+    setCurrentSlideIndex(index);
 
     setSlideIsChanging(false);
   };
@@ -85,14 +88,12 @@ export const useSlides = () => {
         if (slides !== undefined) {
           const index = slides?.findIndex((s) => s.id === slide.id);
           if (index !== undefined && index !== -1) {
-            const nextSlide = slides[index + 1];
-            changeCurrentSlide(nextSlide);
+            changeCurrentSlide(index + 1);
           }
 
           // if there is no next slide, change current slide to the previous slide
           if (index === slides?.length - 1) {
-            const previousSlide = slides[index - 1];
-            changeCurrentSlide(previousSlide);
+            changeCurrentSlide(index - 1);
           }
         }
 
@@ -138,12 +139,14 @@ export const useSlides = () => {
     error,
     isValidating,
     mutate,
-    currentSlide,
+    currentSlideIndex,
     changeCurrentSlide,
     slideIsChanging,
     updateSlideOrder,
     updateContent,
     deleteSlide,
+    slidesState,
+    setSlidesState,
     updateQuestion,
     addSlide,
   };

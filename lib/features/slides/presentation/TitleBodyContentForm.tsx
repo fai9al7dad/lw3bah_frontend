@@ -1,33 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import {
   PrimaryButton,
   TextAreaInput,
   TextInput,
 } from "../../../common/components/atoms";
+import { LessonContext } from "../../lessons/domain/usecases/lesson_context";
 import { Slide } from "../domain/entities/slide";
 import { useSlides } from "../domain/usecases/use_slides";
 
-export default function TitleBodyContentForm({ slide }: { slide: Slide }) {
+export default function TitleBodyContentForm() {
   const { updateContent } = useSlides();
-  const [formState, setFormState] = React.useState({
-    title: "",
-    description: "",
-  });
-
-  // update form state on init
-  React.useEffect(() => {
-    setFormState({
-      title: slide.title !== undefined ? slide.title : "",
-      description: slide.description !== undefined ? slide.description : "",
-    });
-  }, [slide]);
+  const { slidesState, currentSlideIndex, setSlidesState } =
+    useContext(LessonContext);
 
   const onChange = (event: any) => {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value,
-    });
+    setSlidesState(
+      slidesState.map((slide, index) => {
+        if (index === currentSlideIndex) {
+          return {
+            ...slide,
+            [event.target.name]: event.target.value,
+          };
+        }
+        return slide;
+      })
+    );
 
     if (event.target.value.length === 255) {
       toast.warning("نقترح ان لا تزيد الحروف عن 255 حرف لتسهيل القراءة");
@@ -36,13 +34,15 @@ export default function TitleBodyContentForm({ slide }: { slide: Slide }) {
   const onSubmit = (e: any) => {
     e.preventDefault();
 
+    // call mutate and update the current object in the array of slides
+
     updateContent(
       new Slide({
-        id: slide?.id,
-        order: slide?.order,
-        slideType: slide?.slideType,
-        title: formState.title,
-        description: formState.description,
+        id: slidesState[currentSlideIndex]?.id,
+        order: slidesState[currentSlideIndex]?.order,
+        slideType: slidesState[currentSlideIndex]?.slideType,
+        title: slidesState[currentSlideIndex].title,
+        description: slidesState[currentSlideIndex].description,
       })
     );
   };
@@ -51,7 +51,7 @@ export default function TitleBodyContentForm({ slide }: { slide: Slide }) {
       <TextInput
         onChange={onChange}
         name="title"
-        value={formState.title}
+        value={slidesState[currentSlideIndex].title}
         label="عنوان الشريحة"
         className="mb-5"
         required={false}
@@ -60,7 +60,7 @@ export default function TitleBodyContentForm({ slide }: { slide: Slide }) {
         onChange={onChange}
         name="description"
         rows={10}
-        value={formState.description}
+        value={slidesState[currentSlideIndex].description}
         label="الوصف"
         className="mb-5"
       />

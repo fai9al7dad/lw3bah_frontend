@@ -4,6 +4,7 @@ import {
   SecondaryButton,
 } from "../../../../common/components/atoms";
 import { ImgPlaceholder } from "../../../../common/components/SvgIcons";
+import useKeyboardShortcut from "../../../../common/hooks/use_keyboard_shortcut";
 import { Slide } from "../../../slides/domain/entities/slide";
 import { CONTENT_TABS_PREVIEW } from "../../../slides/domain/entities/tabs_mappings";
 import { useSlides } from "../../../slides/domain/usecases/use_slides";
@@ -13,7 +14,28 @@ export const ContentTab = () => {
   const hover = "bg-neutral-50/100";
   const [highlightedIndex, setHighlightedIndex] = React.useState(0);
   const { addSlide } = useSlides();
-
+  const {} = useKeyboardShortcut(
+    ["1"],
+    (shortcutKeys) => {
+      addSlide(slides[0]);
+    },
+    {
+      overrideSystem: true,
+      ignoreInputFields: false,
+      repeatOnHold: false,
+    }
+  );
+  const {} = useKeyboardShortcut(
+    ["2"],
+    (shortcutKeys) => {
+      addSlide(slides[1]);
+    },
+    {
+      overrideSystem: true,
+      ignoreInputFields: false,
+      repeatOnHold: false,
+    }
+  );
   return (
     <div className="grid grid-cols-2 gap-10 ">
       <div>
