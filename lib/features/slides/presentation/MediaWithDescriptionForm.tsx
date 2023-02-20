@@ -61,7 +61,7 @@ export default function MediaWithDescriptionForm() {
       <TextInput
         onChange={onChange}
         name="url"
-        value={slidesState[currentSlideIndex].url}
+        value={slidesState[currentSlideIndex].url ?? ""}
         label="رابط المحتوى"
         className="mb-5"
       />
@@ -69,7 +69,7 @@ export default function MediaWithDescriptionForm() {
         onChange={onChange}
         required={true}
         name="mediaType"
-        value={slidesState[currentSlideIndex].mediaType}
+        value={slidesState[currentSlideIndex].mediaType ?? ""}
         className="inline-block w-full focus:outline-none bg-white border-2 py-2 px-5 border-neutral-200 rounded-lg"
       >
         <option value="video">فيديو</option>
@@ -85,7 +85,7 @@ export default function MediaWithDescriptionForm() {
       <TextAreaInput
         onChange={onChange}
         name="description"
-        value={slidesState[currentSlideIndex].description}
+        value={slidesState[currentSlideIndex].description ?? ""}
         rows={10}
         label="وصف"
         className="mb-5"

@@ -21,7 +21,7 @@ export default function LessonLayout({
   const [isPopupShown, setIsPopupShown] = React.useState(false);
   const { lesson, isValidating } = useLesson();
   const router = useRouter();
-  const { currentSlide } = useContext(LessonContext);
+  const { currentSlideIndex, slidesState } = useContext(LessonContext);
   const togglePopup = () => {
     setIsPopupShown(!isPopupShown);
   };
@@ -52,6 +52,10 @@ export default function LessonLayout({
         </div>
         <div className="text-2xl font-bold">
           {!isValidating && lesson?.title}
+          {/* if a slide has is dirty then show the save button */}
+          {slidesState.some(
+            (slide) => slide.isDirty === true && slide.id != null
+          ) && <span className="mr-2">*</span>}
         </div>
         <div>
           <Modal
@@ -88,21 +92,21 @@ export default function LessonLayout({
 
           <div className="flex items-center justify-center min-h-[85vh]">
             <div className="w-2/6 py-20">
-              {currentSlide?.id != null && (
+              {slidesState[currentSlideIndex]?.id != null && (
                 <Modal
                   // showOverlay={false}
                   onClick={() => {
-                    if (!currentSlide)
+                    if (!slidesState[currentSlideIndex])
                       return toast.error("قم باختيار الشريحة أولا");
                   }}
-                  disableTrigger={!currentSlide}
+                  disableTrigger={!slidesState[currentSlideIndex]}
                   trigger={
                     <SecondaryButton className="mb-4 text-xs">
                       حذف الشريحة
                     </SecondaryButton>
                   }
                 >
-                  <DeleteSlide slide={currentSlide!} />
+                  <DeleteSlide slide={slidesState[currentSlideIndex]!} />
                 </Modal>
               )}
               {children}

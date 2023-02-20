@@ -12,6 +12,7 @@ export class Slide {
   question?: string;
   correctAnswer?: string;
   answers?: Answer[];
+  isDirty?: boolean = false;
 
   constructor({
     id,
@@ -25,6 +26,7 @@ export class Slide {
     url,
     mediaType,
     answers,
+    isDirty,
   }: {
     id?: number;
     lessonID?: number;
@@ -37,6 +39,7 @@ export class Slide {
     question?: string;
     correctAnswer?: string;
     answers?: Answer[];
+    isDirty?: boolean;
   } = {}) {
     this.id = id;
     this.lessonID = lessonID;
@@ -49,6 +52,7 @@ export class Slide {
     this.question = question;
     this.correctAnswer = correctAnswer;
     this.answers = answers;
+    this.isDirty = isDirty;
   }
 
   static TEXT_CONTENT = "text_content";
@@ -59,7 +63,7 @@ export class Slide {
   static MULTIPLE_CHOICE_QUESTION = "multiple_choice_question";
   static GIF_SEPARATOR = "gif_separator";
   // get all slide types
-  getSlideTypes(): string[] {
+  static getSlideTypes(): string[] {
     return [
       Slide.TEXT_CONTENT,
       Slide.TRUE_FALSE_QUESTION,

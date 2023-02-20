@@ -27,6 +27,7 @@ export class SlidesRepositery {
         description: data.description,
         question: data.question,
         correctAnswer: data.correct_answer,
+        isDirty: true,
       });
     });
     return c;
@@ -55,6 +56,7 @@ export class SlidesRepositery {
         description: data.description,
         question: data.question,
         correctAnswer: data.correct_answer,
+        isDirty: true,
       });
     });
     return c;
@@ -154,6 +156,7 @@ export class SlidesRepositery {
           order: slide.order,
           title: slide.title,
           description: slide.body,
+          isDirty: false,
           mediaType:
             slide.media != null
               ? slide.media.length > 0

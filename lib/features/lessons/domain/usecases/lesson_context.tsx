@@ -14,6 +14,7 @@ export type LessonContextType = {
   mutate: any;
   slidesState: Slide[];
   setSlidesState: React.Dispatch<React.SetStateAction<any>>;
+  checkIsDirtySlide: (slide: Slide) => boolean;
 };
 
 export const LessonContext = createContext<LessonContextType>(null);
@@ -28,6 +29,7 @@ export const LessonProvider = ({ children }: { children: any }) => {
     mutate,
     slidesState,
     setSlidesState,
+    checkIsDirtySlide,
   } = useSlides();
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -43,6 +45,7 @@ export const LessonProvider = ({ children }: { children: any }) => {
     mutate,
     setSlidesState,
     slidesState,
+    checkIsDirtySlide,
   };
   return (
     <LessonContext.Provider value={value}>{children}</LessonContext.Provider>

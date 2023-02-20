@@ -9,16 +9,30 @@ const useSubmit = () => {
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
-  const send = async ({ sendFunction, onSuccess }: sendProps) => {
+  const send = async ({
+    sendFunction,
+    onSuccess,
+    showSuccessToast,
+  }: sendProps) => {
     setLoading(true);
     await csrf();
     setErrors([]);
     try {
-      const res = await toast.promise(sendFunction(), {
-        pending: "Loading...",
-        success: "Success",
-        error: "Error",
-      });
+      let res;
+
+      if (showSuccessToast) {
+        res = await toast.promise(sendFunction(), {
+          pending: "Loading...",
+          success: "Success",
+          error: "Error",
+        });
+      } else {
+        try {
+          res = await sendFunction();
+        } catch (error) {
+          toast.error("حصل خطأ ما");
+        }
+      }
 
       setResponse(res);
       onSuccess && onSuccess(res);
@@ -43,4 +57,5 @@ export default useSubmit;
 interface sendProps {
   sendFunction: (a?: any) => Promise<any>;
   onSuccess?: (a?: any) => void;
+  showSuccessToast?: boolean;
 }

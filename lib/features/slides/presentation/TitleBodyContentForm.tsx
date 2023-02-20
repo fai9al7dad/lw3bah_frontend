@@ -20,6 +20,7 @@ export default function TitleBodyContentForm() {
         if (index === currentSlideIndex) {
           return {
             ...slide,
+            isDirty: true,
             [event.target.name]: event.target.value,
           };
         }
@@ -33,8 +34,6 @@ export default function TitleBodyContentForm() {
   };
   const onSubmit = (e: any) => {
     e.preventDefault();
-
-    // call mutate and update the current object in the array of slides
 
     updateContent(
       new Slide({
@@ -51,7 +50,7 @@ export default function TitleBodyContentForm() {
       <TextInput
         onChange={onChange}
         name="title"
-        value={slidesState[currentSlideIndex].title}
+        value={slidesState[currentSlideIndex].title ?? ""}
         label="عنوان الشريحة"
         className="mb-5"
         required={false}
@@ -60,7 +59,7 @@ export default function TitleBodyContentForm() {
         onChange={onChange}
         name="description"
         rows={10}
-        value={slidesState[currentSlideIndex].description}
+        value={slidesState[currentSlideIndex].description ?? ""}
         label="الوصف"
         className="mb-5"
       />

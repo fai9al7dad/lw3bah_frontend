@@ -5,12 +5,12 @@ import { api_routes } from "../../../../common/data/data_sources/api_routes";
 import useSubmit from "../../../../common/hooks/use_submit";
 import { SlidesRepositery } from "../../data/repositeries/SlidesRepositery";
 import { Slide } from "../entities/slide";
+import { debounce } from "lodash";
 
 export const useSlides = () => {
   const router = useRouter();
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState<number>(0);
   const [slideIsChanging, setSlideIsChanging] = React.useState<boolean>(false);
-
   const [slidesState, setSlidesState] = React.useState<Slide[]>([]);
 
   const {
@@ -29,6 +29,31 @@ export const useSlides = () => {
       revalidateOnFocus: false,
     }
   );
+
+  const debouncedDirtySlide = React.useCallback(
+    debounce(() => {
+      if (slidesState.length < 1) return;
+      slidesState.forEach((slide, index) => {
+        if (!slide.isDirty) return;
+        if (Slide.getContentSlides().includes(slide.slideType)) {
+          updateContent(slide);
+        } else {
+          updateQuestion(slide);
+        }
+      });
+    }, 1000),
+    [slidesState]
+  );
+
+  React.useEffect(() => {
+    debouncedDirtySlide();
+  }, [slidesState]);
+
+  React.useEffect(() => {
+    return () => {
+      debouncedDirtySlide.cancel();
+    };
+  }, [debouncedDirtySlide]);
 
   const { send } = useSubmit();
   const changeCurrentSlide = async (index?: number) => {
@@ -57,6 +82,7 @@ export const useSlides = () => {
 
   const updateContent = async (slide: Slide) => {
     send({
+      showSuccessToast: false,
       sendFunction: () => {
         return SlidesRepositery.updateContent(slide);
       },
@@ -68,6 +94,8 @@ export const useSlides = () => {
 
   const updateQuestion = async (slide: Slide) => {
     send({
+      showSuccessToast: false,
+
       sendFunction: () => {
         return SlidesRepositery.updateQuestion(slide);
       },
@@ -98,7 +126,7 @@ export const useSlides = () => {
         }
 
         // if there is no slides, change current slide to undefined
-        if (slides?.length === 1) {
+        if (slides === undefined) {
           changeCurrentSlide(undefined);
         }
       },
@@ -134,6 +162,7 @@ export const useSlides = () => {
       });
     }
   };
+
   return {
     slides,
     error,

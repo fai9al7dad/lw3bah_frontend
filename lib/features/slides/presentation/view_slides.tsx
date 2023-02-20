@@ -5,8 +5,14 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { LessonContext } from "../../lessons/domain/usecases/lesson_context";
 
 export const ViewSlides = () => {
-  const { slides, updateSlideOrder, changeCurrentSlide, currentSlideIndex } =
-    React.useContext(LessonContext);
+  const {
+    slides,
+    slidesState,
+    updateSlideOrder,
+    changeCurrentSlide,
+    currentSlideIndex,
+    checkIsDirtySlide,
+  } = React.useContext(LessonContext);
   if (slides?.length === 0) return <div>There are no slides</div>;
 
   const handleOnDragEnd = (result: any) => {
@@ -27,7 +33,7 @@ export const ViewSlides = () => {
         <Droppable droppableId="droppable">
           {(provided: any) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {slides?.map((slide: Slide, i: number) => (
+              {slidesState?.map((slide: Slide, i: number) => (
                 <Draggable
                   key={slide.id?.toString()}
                   draggableId={slide.id?.toString()}
@@ -35,10 +41,15 @@ export const ViewSlides = () => {
                 >
                   {(provided: any) => (
                     <div
+                      className="relative"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
+                      {slide.isDirty && (
+                        <div className="absolute top-0 right-0 bg-red-500 w-2 h-2 rounded-full z-50 animate-pulse"></div>
+                      )}
+
                       <NavigationButton
                         // key={i}
                         onClick={() => changeCurrentSlide(i)}
@@ -50,7 +61,11 @@ export const ViewSlides = () => {
                       >
                         <div>{i + 1} -</div>
                         <div className="mr-1">
-                          {Slide.translateSlideTypeToArabic(slide.slideType)}
+                          {slide.title?.length > 20
+                            ? slide.title?.slice(0, 20) + "..."
+                            : !slide.title
+                            ? Slide.translateSlideTypeToArabic(slide.slideType)
+                            : slide.title}
                         </div>
                       </NavigationButton>
                     </div>
